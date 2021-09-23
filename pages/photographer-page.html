@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://kit.fontawesome.com/2f777012c0.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <!-- modal -->
+    <div class="modal-overlay">
+        <div class="modal-container">
+            <h1>Contactez-moi</h1>
+            <h1 class="modal-username">Mimi Keel</h1>
+            <form>
+                <label for="fname">Prénom</label><br>
+                <input type="text" id="fname" name="fname"><br>
+                <label for="lname">Nom</label><br>
+                <input type="text" id="lname" name="lname"><br>
+                <label for="email">Email</label><br>
+                <input type="text" id="email" name="email"><br>
+                <label for="message">Votre message</label><br>
+                <textarea id="message" name="message" rows="5" cols="33">
+                </textarea><br>
+                <input type="submit" value="Envoyer" class="btn submit">
+            </form>
+            <button class="close-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <!-- HEADER -->
+    <header>
+        <!-- Logo -->
+        <a href="../index.html">
+            <img src="" alt="Fisheye Home Page" class="logo" tabindex="0">
+        </a>
+    </header>
+
+    <!-- MAIN -->
+    <main id="photographer-container">
+        <!-- User Header -->
+        <section class="user-header">
+            <!-- <div class="user-info">
+                <h1 class="username">mimi keel</h1>
+                <p class="user-loc"><span class="city">London</span>, <span class="country">UK</span></p>
+                <p class="user-tagline">Voir le beau dans le quotidien</p>
+                <ul class="links header-links">
+                    <a href="">
+                        <li class="link">#<span class="tag" tabindex="1">portrait</span></li>
+                    </a>
+                    <a href="">
+                        <li class="link">#<span class="tag" tabindex="2">events</span></li>
+                    </a>
+                    <a href="">
+                        <li class="link">#<span class="tag" tabindex="3">travel</span></li>
+                    </a>
+                    <a href="">
+                        <li class="link">#<span class="tag" tabindex="4">animals</span></li>
+                    </a>
+                </ul>
+            </div>
+            <button class="btn contact">contactez-moi</button>
+            <img class="profile-pic mobile" src="../images/IMG_2023.jpeg" alt=""> -->
+        </section>
+        <!-- filter -->
+        <div class="filter">
+            <p>Trier par</p>
+            <div class="dropdown" tabindex="6">
+                <div class="filter-option btn" tabindex="7">
+                    <input type="radio" id="popularity" name="filter" value="popularity" checked>
+                    <label for="popularity">popularité</label>
+                    <i class="fas fa-chevron-up"></i>
+                </div>
+                <div class="dropdown-content">
+                    <div class="filter-option btn" tabindex="8">
+                        <input type="radio" id="date" name="filter" value="date">
+                        <label for="date">date</label>
+                    </div>
+                    <div class="filter-option btn" tabindex="9">
+                        <input type="radio" id="title" name="filter" value="title">
+                        <label for="title">titre</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of filter -->
+        <!-- Main Container Section -->
+        <section class="content-container">
+            <!-- IMAGE SLIDER -->
+            <section class="modal-slider-container">
+                <div class="slider-container">
+                    <h3 class="slide-img-title">Arc-en-ciel</h3>
+                    <button class="close-slider">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <section id="slider" class="slider">
+                        <article class="slide">
+                            <img src="../images/IMG_2023.jpeg" alt="" class="slide-img">
+                        </article>
+                        <article class="slide">
+                            <img src="../images/IMG_2023.jpeg" alt="" class="slide-img">
+                        </article>
+                        <article class="slide">
+                            <img src="../images/IMG_2023.jpeg" alt="" class="slide-img">
+                        </article>
+                    </section>
+                    <button type="button" class="prevBtn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button type="button" class="nextBtn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </section>
+            <!-- First card -->
+            <!-- <article class="img-card">
+                <img class="feed-img" src="../images/IMG_2023.jpeg" alt="" tabindex="10">
+                <div class="card-bottom">
+                    <p class="img-title">Arc-en-ciel</p>
+                    <div class="like">
+                        <p class="like-count">12</p>
+                        <i class="fas fa-heart"></i>
+                    </div>
+                </div>
+            </article> -->
+            <!-- End of first card -->
+        </section>
+    </main>
+
+    <script type="module" src="../photographer-profile.js"></script>
+</body>
+
+</html>
