@@ -4,6 +4,7 @@
 
 // ELEMENTS FROM DOCUMENT
 const homeContainer = document.querySelector('.home-container')
+const data = await fetch("./data.json").then(res => res.json())
 
 // PhOTOGRAPHERS DATA
 let photographerId = ""
@@ -30,7 +31,7 @@ photographers.forEach(function (photographer, index) {
     <article class="user">
     <a href="">
         <section class="user-view" data-id="${photographerId}" tabindex="10">
-            <img class="profile-pic" src="${photographerPortrait}" alt="${photographerName}">
+            <img class="profile-pic" src="./images/Photographers ID Photos/${photographerPortrait}" alt="${photographerName}">
             <h1 class="username">${photographerName}</h1>
         </section>
     </a>
