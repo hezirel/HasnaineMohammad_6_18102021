@@ -1,6 +1,8 @@
 // ELEMENTS FROM DOCUMENT
 const homeContainer = document.querySelector('.home-container')
+
 const data = await fetch("./data.json").then(res => res.json())
+//#:Add error handler .then or .catch function => display http error
 
 // PhOTOGRAPHERS DATA
 let photographerId = ""
@@ -10,11 +12,12 @@ let photographerCountry = ""
 let photographerTagline = ""
 let photographerPrice = ""
 let photographerPortrait = ""
-let photographerTags = ""
+let tagsList = [];
 
 // DISPLAY PHOTOGRAPHERS 
 const photographers = data["photographers"]
-photographers.forEach(function (photographer, index) {
+
+photographers.forEach((photographer, index) => {
     photographerId = photographer["id"]
     photographerName = photographer["name"]
     photographerCity = photographer["city"]
@@ -22,7 +25,10 @@ photographers.forEach(function (photographer, index) {
     photographerTagline = photographer["tagline"]
     photographerPrice = photographer["price"]
     photographerPortrait = photographer["portrait"]
-    photographerTags = photographer["tags"]
+    photographer["tags"].forEach((string) => {
+        if (!tagsList.includes(string)) 
+            tagsList.push(string);
+    })
     homeContainer.innerHTML += `
     <article class="user">
     <a href="">
@@ -50,11 +56,13 @@ photographers.forEach(function (photographer, index) {
         `
     })
 
+    //#:All photographers tags to HTML upper tag menu selection
+        //instead of being hardcoded
+
     // Get photographerId when clicked
     const currentPhotographer = document.querySelector('.user-view')
     currentPhotographer.addEventListener('click', function () {
         currentId = currentPhotographer.getAttribute('data-id')
     })
-    // I would store that currentId in local storage here
-    // but I'm a lazy son of a bitch :)
 })
+console.log(tagsList);
