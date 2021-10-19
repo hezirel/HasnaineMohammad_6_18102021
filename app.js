@@ -1,7 +1,3 @@
-// I FAILED TO GET THE DATA FROM THE JSON OBJECT SO 
-// I PASTED IT DIRECTLY IN HERE, OBVIOUSLY YOU SHOULD 
-// NOT DO THIS BUT THAT'S TON DOS !
-
 // ELEMENTS FROM DOCUMENT
 const homeContainer = document.querySelector('.home-container')
 const data = await fetch("./data.json").then(res => res.json())
