@@ -12,7 +12,8 @@ let photographerCountry = ""
 let photographerTagline = ""
 let photographerPrice = ""
 let photographerPortrait = ""
-let tagsList = [];
+let photographerTags = ""
+var tagsList = [];
 
 // DISPLAY PHOTOGRAPHERS 
 const photographers = data["photographers"]
@@ -25,6 +26,7 @@ photographers.forEach((photographer, index) => {
     photographerTagline = photographer["tagline"]
     photographerPrice = photographer["price"]
     photographerPortrait = photographer["portrait"]
+    photographerTags = photographer["tags"]
     photographer["tags"].forEach((string) => {
         if (!tagsList.includes(string)) 
             tagsList.push(string);
@@ -48,7 +50,7 @@ photographers.forEach((photographer, index) => {
     // Display tags inside photographers
     const tags = document.querySelectorAll('.tags')
 
-    photographerTags.forEach(function (tag) {
+    photographerTags.forEach((tag) => {
         tags[index].innerHTML += `
         <a href="">
             <li class="link">#<span class="tag">${tag}</span></li>
@@ -65,4 +67,11 @@ photographers.forEach((photographer, index) => {
         currentId = currentPhotographer.getAttribute('data-id')
     })
 })
-console.log(tagsList);
+const menuBar = document.querySelector('.links');
+tagsList.forEach((uniqueTag, index) => {
+    menuBar.innerHTML += `
+                <a href="">
+                    <li class="link">#<span class="tag" tabindex="${index}">${uniqueTag}</span></li>
+                </a>
+    `
+})
