@@ -13,14 +13,6 @@
 // FILTERING SHOULD BE SOMETHING LIKE THAT :
 
 // Get the current photographer, to extract all its data
-// const currentPhotographer = data["photogaphers"].filter(function (obj) {
-//     if (obj["photographerId"] === currentId) {
-//         return true
-//     } else {
-//         return false
-//     }
-// })
-
 // Get all the images of this photographer to disply them
 // const imgsOfCurrentPhotographer = data["media"].filter(function (obj) {
 //     if (obj["photographerId"] === currentId) {
@@ -30,31 +22,37 @@
 //     }
 // })
 
-
 // ELEMENTS FROM DOCUMENT
 const modalOverlay = document.querySelector('.modal-overlay')
 const closeBtn = document.querySelector('.close-btn')
 const userHeader = document.querySelector('.user-header')
 // these should be based on the currentId, not hardcoded like this
-const photographerId = data["photographers"][0]["id"]
-const photographerName = data["photographers"][0]["name"]
-const photographerCity = data["photographers"][0]["city"]
-const photographerCountry = data["photographers"][0]["country"]
-const photographerTagline = data["photographers"][0]["tagline"]
-const photographerPrice = data["photographers"][0]["price"]
-const photographerPortrait = data["photographers"][0]["portrait"]
-const photographerTags = data["photographers"][0]["tags"]
+var displayId = localStorage.getItem("displayId")
+displayId = parseInt(displayId);
+// Add verification
+const data = await fetch("../data.json").then(res => res.json())
+const displayUser = data.photographers.filter(obj => obj.id == displayId)[0];
+
+
+const photographerId = displayUser.id;
+const photographerName = displayUser.name;
+const photographerCity = displayUser.city;
+const photographerCountry = displayUser.country;
+const photographerTagline = displayUser.tagline;
+const photographerPrice = displayUser.price;
+const photographerPortrait = displayUser.portrait;
+const photographerTags = displayUser.tags;
 
 // DISPLAY CURRENT PHOTOTGRAPHER
 userHeader.innerHTML = `
 <div class="user-info">
-    <h1 class="username">${photographerName}</h1>
-    <p class="user-loc"><span class="city">${photographerCity}</span>, <span class="country">${photographerCountry}</span></p>
-    <p class="user-tagline">${photographerTagline}</p>
+    <h1 class="username">${displayUser.name}</h1>
+    <p class="user-loc"><span class="city">${displayUser.city}</span>, <span class="country">${displayUser.country}</span></p>
+    <p class="user-tagline">${displayUser.tagline}</p>
     <ul class="links header-links"></ul>
 </div>
 <button class="btn contact">contactez-moi</button>
-<img class="profile-pic mobile" src="../images/IMG_2023.jpeg" alt="">
+<img class="profile-pic mobile" src="./images/profiles/${displayUser.portrait}" alt="">
 ` //img should be a variable too    ^^^^^^^^^^^^^^^^^^^^^^^^^
 // Display tags inside .user-header
 const headerLinks = document.querySelector('.header-links')
@@ -80,7 +78,7 @@ closeBtn.addEventListener('click', function () {
 const imagesContainer = document.querySelector('.content-container')
 // This should not be hardcoded, but should use the currentId instead
 const currentPhototgrapher = data["media"].filter(function (obj) {
-    if (obj["photographerId"] === 243) {
+    if (obj["photographerId"] === displayId) {
         return true
     } else {
         return false
@@ -91,7 +89,7 @@ const currentPhototgrapher = data["media"].filter(function (obj) {
 currentPhototgrapher.forEach(function (item) {
     imagesContainer.innerHTML += `
     <article class="img-card">
-                <img class="feed-img" src="${item["image"]}" alt="">
+                <img class="feed-img" src="../images/${item["image"]}" alt="">
                 <div class="card-bottom">
                     <p class="img-title">${item["title"]}</p>
                     <div class="like">

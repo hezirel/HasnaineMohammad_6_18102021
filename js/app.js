@@ -14,21 +14,21 @@ const photographers = data["photographers"]
 photographers.forEach((photographer, index) => {
     photographerTags = photographer["tags"]
     photographer["tags"].forEach((string) => {
-        if (!tagsList.includes(string)) 
+        if (!tagsList.includes(string))
             tagsList.push(string);
     })
     //#:change this to a appendchild later
     homeContainer.innerHTML += `
     <article class="user">
-    <a href="">
+    <a href="./pages/photographer-page.html?id=${photographer.id}">
         <section class="user-view" data-id="${photographer.id}" tabindex="10">
-            <img class="profile-pic" src="./images/Photographers ID Photos/${photographer.portrait}" alt="${photographer.name}">
+            <img class="profile-pic" src="./images/profiles/${photographer.portrait}" alt="${photographer.name}">
             <h1 class="username">${photographer.name}</h1>
         </section>
     </a>
     <section class="user-info">
         <p class="user-loc"><span class="city">${photographer.city}</span>, <span class="country">${photographer.country}</span></p>
-        <p class="user-tagline">${photographer.tags}</p>
+        <p class="user-tagline">${photographer.tagline}</p>
         <p class="user-price"><span class="price">${photographer.price}</span>€/jour</p>
         <ul class="links tags"></ul>
     </section>
@@ -50,12 +50,12 @@ photographers.forEach((photographer, index) => {
     })
 
     //#:All photographers tags to HTML upper tag menu selection
-        //instead of being hardcoded
+    //instead of being hardcoded
 
     // Get photographerId when clicked
     const currentPhotographer = document.querySelector('.user-view')
     currentPhotographer.addEventListener('click', function () {
-        currentId = currentPhotographer.getAttribute('data-id')
+        localStorage.setItem("displayId", currentPhotographer.getAttribute('data-id'));
     })
 })
 
