@@ -49,10 +49,7 @@ photographers.forEach((photographer, index) => {
         `
     })
 
-    //#:All photographers tags to HTML upper tag menu selection
-    //instead of being hardcoded
-
-    // Get photographerId when clicked
+        // Get photographerId when clicked
     const currentPhotographer = document.querySelector('.user-view')
     currentPhotographer.addEventListener('click', function () {
         localStorage.setItem("displayId", currentPhotographer.getAttribute('data-id'));

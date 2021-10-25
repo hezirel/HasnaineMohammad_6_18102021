@@ -26,14 +26,14 @@
 const modalOverlay = document.querySelector('.modal-overlay')
 const closeBtn = document.querySelector('.close-btn')
 const userHeader = document.querySelector('.user-header')
-// these should be based on the currentId, not hardcoded like this
-var displayId = localStorage.getItem("displayId")
-displayId = parseInt(displayId);
+const params = new URLSearchParams(window.location.search)
+var displayId = parseInt(params.get('id'))
+
 // Add verification
 const data = await fetch("../data.json").then(res => res.json())
 const displayUser = data.photographers.filter(obj => obj.id == displayId)[0];
-
 // DISPLAY CURRENT PHOTOTGRAPHER
+
 userHeader.innerHTML = `
 <div class="user-info">
     <h1 class="username">${displayUser.name}</h1>
@@ -45,7 +45,7 @@ userHeader.innerHTML = `
 <img class="profile-pic mobile" src="../images/profiles/${displayUser.portrait}" alt="">
 `
 const headerLinks = document.querySelector('.header-links')
-photographerTags.forEach(function (tag) {
+displayUser.tags.forEach(function (tag) {
     headerLinks.innerHTML += `
     <a href="">
         <li class="link">#<span class="tag">${tag}</span></li>
@@ -65,21 +65,19 @@ closeBtn.addEventListener('click', function () {
 
 // DISPLAY IMAGES 
 const imagesContainer = document.querySelector('.content-container')
-// This should not be hardcoded, but should use the currentId instead
-const currentPhototgrapher = data.media.find(obj => {
-    if (obj.photographerId === displayUser.id) {
+
+const currentPhototgrapher = data.media.filter(obj => {
+    if (obj.photographerId == displayUser.id) {
         return true
     } else {
         return false
     }
 })
 
-//#:replace vars with item.prop
-
 currentPhototgrapher.forEach(item => {
     imagesContainer.innerHTML += `
     <article class="img-card">
-                <img class="feed-img" src="../images/${item.name}/${item["image"]}" alt="">
+                <img class="feed-img" src="../images/Mimi/${item.image}" alt="">
                 <div class="card-bottom">
                     <p class="img-title">${item.title}</p>
                     <div class="like">
