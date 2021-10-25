@@ -1,7 +1,7 @@
 // ELEMENTS FROM DOCUMENT
 const homeContainer = document.querySelector('.home-container')
 
-const data = await fetch("./data.json").then(res => res.json())
+const data = await fetch("../data.json").then(res => res.json())
 //#:Add error handler .then or .catch function => display http error
 
 // PhOTOGRAPHERS DATA
@@ -20,9 +20,9 @@ photographers.forEach((photographer, index) => {
     //#:change this to a appendchild later
     homeContainer.innerHTML += `
     <article class="user">
-    <a href="./pages/photographer-page.html?id=${photographer.id}">
+    <a href="./photographer-page.html?id=${photographer.id}">
         <section class="user-view" data-id="${photographer.id}" tabindex="10">
-            <img class="profile-pic" src="./images/profiles/${photographer.portrait}" alt="${photographer.name}">
+            <img class="profile-pic" src="../images/profiles/${photographer.portrait}" alt="${photographer.name}">
             <h1 class="username">${photographer.name}</h1>
         </section>
     </a>

@@ -33,16 +33,6 @@ displayId = parseInt(displayId);
 const data = await fetch("../data.json").then(res => res.json())
 const displayUser = data.photographers.filter(obj => obj.id == displayId)[0];
 
-
-const photographerId = displayUser.id;
-const photographerName = displayUser.name;
-const photographerCity = displayUser.city;
-const photographerCountry = displayUser.country;
-const photographerTagline = displayUser.tagline;
-const photographerPrice = displayUser.price;
-const photographerPortrait = displayUser.portrait;
-const photographerTags = displayUser.tags;
-
 // DISPLAY CURRENT PHOTOTGRAPHER
 userHeader.innerHTML = `
 <div class="user-info">
@@ -52,9 +42,8 @@ userHeader.innerHTML = `
     <ul class="links header-links"></ul>
 </div>
 <button class="btn contact">contactez-moi</button>
-<img class="profile-pic mobile" src="./images/profiles/${displayUser.portrait}" alt="">
-` //img should be a variable too    ^^^^^^^^^^^^^^^^^^^^^^^^^
-// Display tags inside .user-header
+<img class="profile-pic mobile" src="../images/profiles/${displayUser.portrait}" alt="">
+`
 const headerLinks = document.querySelector('.header-links')
 photographerTags.forEach(function (tag) {
     headerLinks.innerHTML += `
@@ -77,23 +66,24 @@ closeBtn.addEventListener('click', function () {
 // DISPLAY IMAGES 
 const imagesContainer = document.querySelector('.content-container')
 // This should not be hardcoded, but should use the currentId instead
-const currentPhototgrapher = data["media"].filter(function (obj) {
-    if (obj["photographerId"] === displayId) {
+const currentPhototgrapher = data.media.find(obj => {
+    if (obj.photographerId === displayUser.id) {
         return true
     } else {
         return false
     }
 })
 
+//#:replace vars with item.prop
 
-currentPhototgrapher.forEach(function (item) {
+currentPhototgrapher.forEach(item => {
     imagesContainer.innerHTML += `
     <article class="img-card">
-                <img class="feed-img" src="../images/${item["image"]}" alt="">
+                <img class="feed-img" src="../images/${item.name}/${item["image"]}" alt="">
                 <div class="card-bottom">
-                    <p class="img-title">${item["title"]}</p>
+                    <p class="img-title">${item.title}</p>
                     <div class="like">
-                        <p class="like-count">${item["likes"]}</p>
+                        <p class="like-count">${item.likes}</p>
                         <i class="fas fa-heart"></i>
                     </div>
                 </div>
