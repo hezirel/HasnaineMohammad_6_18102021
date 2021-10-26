@@ -65,9 +65,14 @@ photographers.forEach((photographer, index) => {
 //#:add event listener with call to filtering function
 const menuBar = document.querySelector('.links');
 homeTagsList.forEach((uniqueTag, index) => {
-    menuBar.innerHTML += `
-                <a href="">
-                    <li class="link">#<span class="tag" tabindex="${index}">${uniqueTag}</span></li>
-                </a>
-    `
+    var elt = document.createElement("a");
+    var list = document.createElement("li");
+    var sp = document.createElement("span");
+    list.classList.add("link");
+    sp.classList.add("tag");
+    sp.setAttribute("tabindex", index);
+    sp.textContent = uniqueTag;
+    list.appendChild(sp);
+    elt.appendChild(list);
+    menuBar.appendChild(elt);
 })
