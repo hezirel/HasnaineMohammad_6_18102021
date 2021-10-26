@@ -11,21 +11,44 @@ const data = await fetch("../data.json").then(res => res.json());
 // DISPLAY PHOTOGRAPHERS 
 const photographers = data.photographers;
 
-function userNodeConstructor(user) {
+const node = function (user) {
     var elt = document.createElement("article");
     elt.classList.add("user")
     var a = document.createElement("a")
     var path = "./photographer-page.html?id=" + user.id;
-    a.setAttribute("href", path);
+    a.setAttribute("href", path)
+    var sec = document.createElement("section")
+    sec.classList.add("user-view")
+    sec.setAttribute("data-id", user.id)
+    var pic = document.createElement("img");
+    pic.setAttribute("src", ("../images/profiles/" + user.portrait))
+    pic.setAttribute("alt", user.name);
+    pic.classList.add("profile-pic");
+    var title = document.createElement("h1")
+    title.classList.add("username")
+    title.textContent = user.name;
+    sec.appendChild(pic);
+    sec.appendChild(title);
+    a.appendChild(sec);
     elt.appendChild(a);
-    console.log(elt.innerHTML);
-/*     elt.a.classList.setAttribute("tabindex", "10");
-    elt.a.appendChild(document.createElement("section"))
-    elt.a.section.appendChild(document.createElement("img"))
-    elt.a.section.appendChild(document.createElement("h1"))
-    elt.appendChild(document.createElement("section"))
+    var info = document.createElement("section");
+    info.classList.add("user-info");
+    var loc = document.createElement("p")
+    loc.classList.add("user-loc")
 
-  */   return elt;
+/*  
+    //Add tags below user cards
+    // Display tags inside photographers
+    const tags = document.querySelectorAll('.tags');
+    photographerTags.forEach((tag) => {
+        tags[index].innerHTML += `
+        <a href="">
+            <li class="link">#<span class="tag">${tag}</span></li>
+        </a>
+        `
+    });
+*/
+    return elt;
 };
 
 photographers.forEach((photographer, index) => {
@@ -36,10 +59,7 @@ photographers.forEach((photographer, index) => {
             homeTagsList.push(string);
     });
 
-    //#:change this to a constructor
-    var node = userNodeConstructor(photographer);
-
-    homeContainer.appendChild(node);
+    homeContainer.appendChild(node(photographer));
 /*     `
     <article class="user">
     <a href="./photographer-page.html?id=${photographer.id}">
@@ -63,17 +83,6 @@ photographers.forEach((photographer, index) => {
     //Then if photographer["tags"].has filters[*]
     //append child
 
-    //Add tags below user cards
-    // Display tags inside photographers
-/*     const tags = document.querySelectorAll('.tags');
-    photographerTags.forEach((tag) => {
-        tags[index].innerHTML += `
-        <a href="">
-            <li class="link">#<span class="tag">${tag}</span></li>
-        </a>
-        `
-    });
- */
     //Alternative photographer ID for profile page transmission method
 /*
     const currentPhotographer = document.querySelector('.user')
