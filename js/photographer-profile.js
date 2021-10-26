@@ -28,7 +28,6 @@ const closeBtn = document.querySelector('.close-btn')
 const userHeader = document.querySelector('.user-header')
 const params = new URLSearchParams(window.location.search)
 var displayId = parseInt(params.get('id'))
-
 // Add verification
 const data = await fetch("../data.json").then(res => res.json())
 const displayUser = data.photographers.filter(obj => obj.id == displayId)[0];
@@ -74,10 +73,13 @@ const currentPhototgrapher = data.media.filter(obj => {
     }
 })
 
+//#:Hacky ask backend to review naming conventions
+var name = displayUser.name.split(" ")[0];
+
 currentPhototgrapher.forEach(item => {
     imagesContainer.innerHTML += `
     <article class="img-card">
-                <img class="feed-img" src="../images/Mimi/${item.image}" alt="">
+                <img class="feed-img" src="../images/${name}/${item.image}" alt="">
                 <div class="card-bottom">
                     <p class="img-title">${item.title}</p>
                     <div class="like">
