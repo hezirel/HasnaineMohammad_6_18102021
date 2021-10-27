@@ -2,8 +2,8 @@
 const homeContainer = document.querySelector('.home-container');
 
 // PhOTOGRAPHERS DATA
-let photographerTags = "";
 var homeTagsList = [];
+const filterQuery = ["Sports"];
 
 //#:Add error handler .then or .catch function => display http error
 const data = await fetch("../data.json").then(res => res.json());
@@ -12,7 +12,7 @@ const data = await fetch("../data.json").then(res => res.json());
 const photographers = data.photographers;
 
 //User card node constructor
-const node = function (user) {
+const node = (user) => {
     var elt = document.createElement("article");
     elt.classList.add("user")
     elt.innerHTML += `
@@ -29,40 +29,43 @@ const node = function (user) {
     <ul class="links tags"></ul>
 </section>
     `
+    //Add tags below user cards
+    // Display tags inside photographers
+    const tags = elt.querySelector('.tags');
+    user.tags.forEach((tag) => {
+        tags.innerHTML += `
+            <a href="">
+                <li class="link">#<span class="tag">${tag}</span></li>
+            </a>`
+    });
     return elt;
 };
 
+//Event loop for this function ? No -> on change event from filter query
 photographers.forEach((photographer, index) => {
 
-    photographerTags = photographer.tags;
     photographer.tags.forEach((string) => {
         if (!homeTagsList.includes(string))
             homeTagsList.push(string);
     });
 
-    homeContainer.appendChild(node(photographer));
-    //Add tags below user cards
-    // Display tags inside photographers
-    const tags = document.querySelectorAll('.tags');
-    photographerTags.forEach((tag) => {
-        tags[index].innerHTML += `
-        <a href="">
-            <li class="link">#<span class="tag">${tag}</span></li>
-        </a>
-        `
-    });
+    //if filter query is true OR user.tags includes filterquery
+    if ((true)) {
+        homeContainer.appendChild(node(photographer));
+    }
     //Alternative photographer ID for profile page transmission method
-/*
-    const currentPhotographer = document.querySelector('.user')
-    currentPhotographer.addEventListener('click', function () {
-        localStorage.setItem("displayId", currentPhotographer.getAttribute('data-id'));
-        })
-*/
+    /*
+        const currentPhotographer = document.querySelector('.user')
+        currentPhotographer.addEventListener('click', function () {
+            localStorage.setItem("displayId", currentPhotographer.getAttribute('data-id'));
+            })
+    */
 
 })
 
 //Homepage top bar tags display after parsing thru all object response
 //#:add event listener with call to filtering function
+//Node constructor better innerHTML or individual attr setting ?
 const menuBar = document.querySelector('.links');
 homeTagsList.forEach((uniqueTag, index) => {
     var elt = document.createElement("a");
