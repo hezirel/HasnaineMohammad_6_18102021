@@ -44,7 +44,10 @@ const node = (user) => {
 
 //Reuse pattern from homepage to filter user for filtering medias.
 //Event loop for this function ? No -> on change event from filter query
-function feedDraw () {
+function drawFeed () {
+    //reset feed before redraw
+    homeContainer.querySelectorAll(".user").forEach(obj => obj.remove())
+
     photographers.forEach((photographer, index) => {
 
         photographer.tags.forEach((string) => {
@@ -53,17 +56,15 @@ function feedDraw () {
         });
 
         //if filter query is true OR user.tags includes filterquery
-        if ((true)) {
+        if ((!(sessionStorage.getItem("queryFilter"))) || (photographer.tags.includes(sessionStorage.getItem("queryFilter")))) {
             homeContainer.appendChild(node(photographer));
         }
         //Alternative photographer ID for profile page transmission method
 
     })
 };
-function clearDraw () {
-    homeContainer.querySelectorAll(".user").forEach(obj => obj.remove())
-}
 
+drawFeed();
 //Homepage top bar tags display after parsing thru all object response
 //#:add event listener with call to filtering function
 //Node constructor better innerHTML or individual attr setting ?
@@ -79,7 +80,9 @@ homeTagsList.forEach((uniqueTag, index) => {
     list.appendChild(sp);
     elt.appendChild(list);
     elt.addEventListener("click", () => {
-
+        //set session storage queryFilter
+        sessionStorage.setItem("queryFilter", ((uniqueTag)))
+        drawFeed();
     })
     menuBar.appendChild(elt);
 })
