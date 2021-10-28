@@ -17,7 +17,7 @@ const node = (user) => {
     var elt = document.createElement("article");
     elt.classList.add("user")
     elt.innerHTML += `
-    <a href="./photographer-page.html?id=${user.id}">
+    <a href="./photographer-page.html">
     <section class="user-view" data-id="${user.id}">
         <img class="profile-pic" src="../images/profiles/${user.portrait}" alt="${user.name}">
         <h1 class="username">${user.name}</h1>
@@ -39,6 +39,9 @@ const node = (user) => {
                 <li class="link">#<span class="tag">${tag}</span></li>
             </a>`
     });
+    elt.addEventListener('click', function () {
+        sessionStorage.setItem("displayId", user.id);
+    })
     return elt;
 };
 
@@ -56,13 +59,6 @@ photographers.forEach((photographer, index) => {
         homeContainer.appendChild(node(photographer));
     }
     //Alternative photographer ID for profile page transmission method
-    /*
-        const currentPhotographer = document.querySelector('.user')
-        currentPhotographer.addEventListener('click', function () {
-            localStorage.setItem("displayId", currentPhotographer.getAttribute('data-id'));
-            })
-    */
-
 })
 
 //Homepage top bar tags display after parsing thru all object response

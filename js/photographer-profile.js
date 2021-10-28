@@ -1,36 +1,13 @@
-// DATA
-
-// HERE, THE VARIABLES FROM THE PHOTOGRAPHERS DATA ARE NOT DYNAMIC,
-// TO DISPLAY THE DATA ON THE PHOTOGRAPHERS PAGE, 
-// YOU SHOULD GET THE PHOTOGRAPERSID OF THE ONE CLICKED
-// IN THE HOME PAGE (DONE AT THE END OF APP.JS WITH CURRENTID), 
-// STORE IT IN LOCAL STORAGE, THEN, THE LINK SEND 
-// YOU TO THE NEW PAGE, YOU GET THE ID BACK FROM 
-// LOCAL STORAGE AND NOW YOU CAN USE THAT ID TO FILTER THE DATA
-// AND DISPLAY THE RESULTING INFO AND PICTURES ON THE NEW PAGE
-// AFTER GETTING THE ID BACK FORM LOCAL STORAGE,
-
-// FILTERING SHOULD BE SOMETHING LIKE THAT :
-
-// Get the current photographer, to extract all its data
-// Get all the images of this photographer to disply them
-// const imgsOfCurrentPhotographer = data["media"].filter(function (obj) {
-//     if (obj["photographerId"] === currentId) {
-//         return true
-//     } else {
-//         return false
-//     }
-// })
-
 // ELEMENTS FROM DOCUMENT
 const modalOverlay = document.querySelector('.modal-overlay')
 const closeBtn = document.querySelector('.close-btn')
 const userHeader = document.querySelector('.user-header')
 const params = new URLSearchParams(window.location.search)
-var displayId = parseInt(params.get('id'))
+var displayId = parseInt(sessionStorage.getItem("displayId"));
 // Add verification
 const data = await fetch("../data.json").then(res => res.json())
 const displayUser = data.photographers.filter(obj => obj.id == displayId)[0];
+console.log(displayUser);
 // DISPLAY CURRENT PHOTOTGRAPHER
 
 userHeader.innerHTML = `
@@ -52,7 +29,6 @@ displayUser.tags.forEach(function (tag) {
     `
 })
 
-
 // CONTACT MODAL
 const contact = document.querySelector('.contact')
 contact.addEventListener('click', function () {
@@ -65,11 +41,16 @@ closeBtn.addEventListener('click', function () {
 // DISPLAY IMAGES 
 const imagesContainer = document.querySelector('.content-container')
 
-const currentPhototgrapher = data.media.filter(obj => (obj.photographerId == displayUser.id));
-//#:Hacky ask backend to review naming conventions
-var name = displayUser.name.split(" ")[0];
+const currentPhotographer = data.media.filter(obj => (obj.photographerId == displayUser.id));
+//convert to function => add verif for sort variable here
+//popular by defaut. Event listener on menu list. Recall
+//clear feed then draw feed (this.function) again
 
-currentPhototgrapher.forEach(item => {
+currentPhotographer.forEach(item => {
+    //leave that way, adjust after compromising on new object property for path
+    //#:Hacky ask backend to review naming conventions
+    var name = displayUser.name.split(" ")[0];
+
     imagesContainer.innerHTML += `
     <article class="img-card">
                 <img class="feed-img" src="../images/${name}/${item.image}" alt="">
