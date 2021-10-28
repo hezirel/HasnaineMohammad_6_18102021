@@ -65,14 +65,7 @@ closeBtn.addEventListener('click', function () {
 // DISPLAY IMAGES 
 const imagesContainer = document.querySelector('.content-container')
 
-const currentPhototgrapher = data.media.filter(obj => {
-    if (obj.photographerId == displayUser.id) {
-        return true
-    } else {
-        return false
-    }
-})
-
+const currentPhototgrapher = data.media.filter(obj => (obj.photographerId == displayUser.id));
 //#:Hacky ask backend to review naming conventions
 var name = displayUser.name.split(" ")[0];
 

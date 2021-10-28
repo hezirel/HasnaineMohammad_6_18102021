@@ -8,10 +8,11 @@ const filterQuery = ["Sports"];
 //#:Add error handler .then or .catch function => display http error
 const data = await fetch("../data.json").then(res => res.json());
 
-// DISPLAY PHOTOGRAPHERS 
+// FETCH PHOTOGRAPHERS OBJECT
 const photographers = data.photographers;
 
 //User card node constructor
+//Define object template and assign user.attr values ?
 const node = (user) => {
     var elt = document.createElement("article");
     elt.classList.add("user")
@@ -41,6 +42,7 @@ const node = (user) => {
     return elt;
 };
 
+//Reuse pattern from homepage to filter user for filtering medias.
 //Event loop for this function ? No -> on change event from filter query
 photographers.forEach((photographer, index) => {
 
@@ -74,7 +76,7 @@ homeTagsList.forEach((uniqueTag, index) => {
     list.classList.add("link");
     sp.classList.add("tag");
     sp.setAttribute("tabindex", index);
-    sp.textContent = uniqueTag;
+    sp.textContent = "#" + uniqueTag;
     list.appendChild(sp);
     elt.appendChild(list);
     menuBar.appendChild(elt);
