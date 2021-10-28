@@ -1,3 +1,4 @@
+sessionStorage.clear();
 //#:Add error handler .then or .catch function => display http error
 const data = await fetch("../data.json").then(res => res.json());
 
@@ -7,6 +8,7 @@ const photographers = data.photographers;
 // ELEMENTS FROM DOCUMENT
 const homeContainer = document.querySelector('.home-container');
 var homeTagsList = [];
+var filterSelected = [];
 
 //User card node constructor
 //Define object template and assign user.attr values ?
@@ -56,7 +58,9 @@ function drawFeed () {
         });
 
         //if filter query is true OR user.tags includes filterquery
-        if ((!(sessionStorage.getItem("queryFilter"))) || (photographer.tags.includes(sessionStorage.getItem("queryFilter")))) {
+        console.log(photographer.tags);
+        console.log(filterSelected);
+        if (photographer.tags.includes(filterSelected)) {
             homeContainer.appendChild(node(photographer));
         }
         //Alternative photographer ID for profile page transmission method
@@ -81,7 +85,8 @@ homeTagsList.forEach((uniqueTag, index) => {
     elt.appendChild(list);
     elt.addEventListener("click", () => {
         //set session storage queryFilter
-        sessionStorage.setItem("queryFilter", ((uniqueTag)))
+        filterSelected.push(uniqueTag);
+        sessionStorage.setItem("queryFilter", (JSON.stringify(filterSelected)))
         drawFeed();
     })
     menuBar.appendChild(elt);
