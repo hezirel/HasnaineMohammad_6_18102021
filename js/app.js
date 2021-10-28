@@ -1,15 +1,12 @@
-// ELEMENTS FROM DOCUMENT
-const homeContainer = document.querySelector('.home-container');
-
-// PhOTOGRAPHERS DATA
-var homeTagsList = [];
-const filterQuery = ["Sports"];
-
 //#:Add error handler .then or .catch function => display http error
 const data = await fetch("../data.json").then(res => res.json());
 
 // FETCH PHOTOGRAPHERS OBJECT
 const photographers = data.photographers;
+
+// ELEMENTS FROM DOCUMENT
+const homeContainer = document.querySelector('.home-container');
+var homeTagsList = [];
 
 //User card node constructor
 //Define object template and assign user.attr values ?
@@ -47,19 +44,25 @@ const node = (user) => {
 
 //Reuse pattern from homepage to filter user for filtering medias.
 //Event loop for this function ? No -> on change event from filter query
-photographers.forEach((photographer, index) => {
+function feedDraw () {
+    photographers.forEach((photographer, index) => {
 
-    photographer.tags.forEach((string) => {
-        if (!homeTagsList.includes(string))
-            homeTagsList.push(string);
-    });
+        photographer.tags.forEach((string) => {
+            if (!homeTagsList.includes(string))
+                homeTagsList.push(string);
+        });
 
-    //if filter query is true OR user.tags includes filterquery
-    if ((true)) {
-        homeContainer.appendChild(node(photographer));
-    }
-    //Alternative photographer ID for profile page transmission method
-})
+        //if filter query is true OR user.tags includes filterquery
+        if ((true)) {
+            homeContainer.appendChild(node(photographer));
+        }
+        //Alternative photographer ID for profile page transmission method
+
+    })
+};
+function clearDraw () {
+    homeContainer.querySelectorAll(".user").forEach(obj => obj.remove())
+}
 
 //Homepage top bar tags display after parsing thru all object response
 //#:add event listener with call to filtering function
@@ -75,5 +78,8 @@ homeTagsList.forEach((uniqueTag, index) => {
     sp.textContent = "#" + uniqueTag;
     list.appendChild(sp);
     elt.appendChild(list);
+    elt.addEventListener("click", () => {
+
+    })
     menuBar.appendChild(elt);
 })

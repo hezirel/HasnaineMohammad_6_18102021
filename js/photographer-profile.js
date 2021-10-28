@@ -1,14 +1,13 @@
-// ELEMENTS FROM DOCUMENT
+// elements from document
 const modalOverlay = document.querySelector('.modal-overlay')
 const closeBtn = document.querySelector('.close-btn')
 const userHeader = document.querySelector('.user-header')
-const params = new URLSearchParams(window.location.search)
 var displayId = parseInt(sessionStorage.getItem("displayId"));
-// Add verification
+// add verification
 const data = await fetch("../data.json").then(res => res.json())
 const displayUser = data.photographers.filter(obj => obj.id == displayId)[0];
 console.log(displayUser);
-// DISPLAY CURRENT PHOTOTGRAPHER
+// display current photographer
 
 userHeader.innerHTML = `
 <div class="user-info">
@@ -29,7 +28,7 @@ displayUser.tags.forEach(function (tag) {
     `
 })
 
-// CONTACT MODAL
+// contact modal
 const contact = document.querySelector('.contact')
 contact.addEventListener('click', function () {
     modalOverlay.classList.add('open-modal')
@@ -38,7 +37,7 @@ closeBtn.addEventListener('click', function () {
     modalOverlay.classList.remove('open-modal')
 })
 
-// DISPLAY IMAGES 
+// display images 
 const imagesContainer = document.querySelector('.content-container')
 
 const currentPhotographer = data.media.filter(obj => (obj.photographerId == displayUser.id));
@@ -66,14 +65,6 @@ currentPhotographer.forEach(item => {
 })
 
 
-// IMAGES SLIDER
-// HERE YOU SHOULD GET THE PICTURE ID WHEN CLICKED,
-// AND OPEN THAT PARTICULAR PICTURE WHEN THE SLIDER ARRIVES
-// YOU SHOULD USE THAT PICTURE ID TO GET THE TITLE OF THE IMG
-// AND APPLY IT TO THE imgTitle.textContent
-// PREV AND NEXT BUTTON SHOULD ITERATE THROUGH THE ARRAY
-// CONTAINING ALL THE PICTURES
-// EASY BUT AS I SAID, TON DOS X)
 const imgTitle = document.querySelector('.slide-img-title')
 const imgCard = document.querySelectorAll('.img-card')
 const sliderModalContainer = document.querySelector('.modal-slider-container')
