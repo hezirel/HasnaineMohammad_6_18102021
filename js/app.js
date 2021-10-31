@@ -40,7 +40,6 @@ const node = (user) => {
     elt.addEventListener('click', function () {
         sessionStorage.setItem("displayId", user.id);
     });
-
     return elt;
 };
 
