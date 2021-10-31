@@ -104,7 +104,7 @@ header .links {
     -ms-transition:var(--transition);
     -o-transition:var(--transition);
 }
-.link:hover , .active{
+.link:hover , .active {
     background-color:var(--clr-primary);
     color:white;
 }

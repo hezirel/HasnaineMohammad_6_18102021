@@ -7,6 +7,7 @@ const photographers = data.photographers;
 
 // ELEMENTS FROM DOCUMENT
 const homeContainer = document.querySelector('.home-container');
+const menuBar = document.querySelector('.links');
 var homeTagsList = [];
 let filterSelected = [];
 
@@ -33,22 +34,46 @@ const node = (user) => {
     // Display tags inside photographers
     const tags = elt.querySelector('.tags');
     user.tags.forEach((tag) => {
-        tags.innerHTML += `
-            <a href="">
-                <li class="link">#<span class="tag">${tag}</span></li>
-            </a>`
+        tags.appendChild(tagNode(tag));
     });
+
     elt.addEventListener('click', function () {
         sessionStorage.setItem("displayId", user.id);
-    })
+    });
+
     return elt;
 };
+
+const tagNode = (label, index) => {
+    var elt = document.createElement("a");
+    var list = document.createElement("li");
+    var sp = document.createElement("span");
+    list.classList.add("link");
+    filterSelected.includes(label) ? list.classList.add("active") : false;
+    sp.classList.add("tag");
+    sp.setAttribute("tabindex", index);
+    sp.textContent = "#" + label;
+    list.appendChild(sp);
+    elt.appendChild(list);
+    elt.addEventListener("click", () => {
+        //Toggling filters in filterSelected array;
+        let index = filterSelected.indexOf(label);
+        if (index === -1) {
+            filterSelected.push(label);
+        } else {
+            filterSelected.splice(index, 1);
+        }
+        elt.querySelector(".link").classList.toggle("active");
+        drawFeed();
+    })
+    return elt;
+}
 
 //Reuse pattern from homepage to filter user for filtering medias.
 //Event loop for this function ? No -> on change event from filter query
 function drawFeed() {
-    //reset feed before redraw
     homeContainer.querySelectorAll(".user").forEach(obj => obj.remove())
+    menuBar.querySelectorAll("a").forEach(obj => obj.remove())
 
     photographers.forEach((photographer, index) => {
 
@@ -62,32 +87,9 @@ function drawFeed() {
             homeContainer.appendChild(node(photographer));
         }
     })
+    homeTagsList.forEach((e) => menuBar.appendChild(tagNode(e)));
 };
 drawFeed();
 //Homepage top bar tags display after parsing thru all object response
 //#:add event listener with call to filtering function
 //Node constructor better innerHTML or individual attr setting ?
-const menuBar = document.querySelector('.links');
-homeTagsList.forEach((uniqueTag, index) => {
-    var elt = document.createElement("a");
-    var list = document.createElement("li");
-    var sp = document.createElement("span");
-    list.classList.add("link");
-    sp.classList.add("tag");
-    sp.setAttribute("tabindex", index);
-    sp.textContent = "#" + uniqueTag;
-    list.appendChild(sp);
-    elt.appendChild(list);
-    elt.addEventListener("click", () => {
-        //Ternary operator for toggling filter in query
-        let index = filterSelected.indexOf(uniqueTag);
-        if (index === -1) {
-            filterSelected.push(uniqueTag);
-        } else {
-            filterSelected.splice(index, 1);
-        }
-        elt.querySelector(".link").classList.toggle("active");
-        drawFeed();
-    })
-    menuBar.appendChild(elt);
-})
