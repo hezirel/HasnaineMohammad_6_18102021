@@ -71,7 +71,7 @@ body {
     -ms-transition:var(--transition);
     -o-transition:var(--transition);
 }
-.btn:hover, .btn:focus{
+.btn:hover, .btn:focus, .btn:active,{
     background-color:var(--clr-secondary);
     color:black;
 }
@@ -104,13 +104,14 @@ header .links {
     -ms-transition:var(--transition);
     -o-transition:var(--transition);
 }
-.link:hover {
+.link:hover , .active{
     background-color:var(--clr-primary);
     color:white;
 }
 .tag {
     text-transform:capitalize;
 }
+
 @media screen and (min-width: 769px) {
     header .links {
         margin-top:0.5rem;

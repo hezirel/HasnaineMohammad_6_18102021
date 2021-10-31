@@ -8,7 +8,7 @@ const photographers = data.photographers;
 // ELEMENTS FROM DOCUMENT
 const homeContainer = document.querySelector('.home-container');
 var homeTagsList = [];
-var filterSelected = [];
+let filterSelected = [];
 
 //User card node constructor
 //Define object template and assign user.attr values ?
@@ -46,7 +46,7 @@ const node = (user) => {
 
 //Reuse pattern from homepage to filter user for filtering medias.
 //Event loop for this function ? No -> on change event from filter query
-function drawFeed () {
+function drawFeed() {
     //reset feed before redraw
     homeContainer.querySelectorAll(".user").forEach(obj => obj.remove())
 
@@ -58,16 +58,11 @@ function drawFeed () {
         });
 
         //if filter query is true OR user.tags includes filterquery
-        console.log(photographer.tags);
-        console.log(filterSelected);
-        if (photographer.tags.includes(filterSelected)) {
+        if (photographer.tags.some((e) => filterSelected.includes(e)) || !filterSelected[0]) {
             homeContainer.appendChild(node(photographer));
         }
-        //Alternative photographer ID for profile page transmission method
-
     })
 };
-
 drawFeed();
 //Homepage top bar tags display after parsing thru all object response
 //#:add event listener with call to filtering function
@@ -84,9 +79,14 @@ homeTagsList.forEach((uniqueTag, index) => {
     list.appendChild(sp);
     elt.appendChild(list);
     elt.addEventListener("click", () => {
-        //set session storage queryFilter
-        filterSelected.push(uniqueTag);
-        sessionStorage.setItem("queryFilter", (JSON.stringify(filterSelected)))
+        //Ternary operator for toggling filter in query
+        let index = filterSelected.indexOf(uniqueTag);
+        if (index === -1) {
+            filterSelected.push(uniqueTag);
+        } else {
+            filterSelected.splice(index, 1);
+        }
+        elt.querySelector(".link").classList.toggle("active");
         drawFeed();
     })
     menuBar.appendChild(elt);
