@@ -8,14 +8,14 @@ const photographers = data.photographers;
 // ELEMENTS FROM DOCUMENT
 const homeContainer = document.querySelector('.home-container');
 const menuBar = document.querySelector('.links');
-var homeTagsList = [];
+let homeTagsList = [];
 let filterSelected = [];
 
 //User card node constructor
 //Define object template and assign user.attr values ?
 const node = (user) => {
     var elt = document.createElement("article");
-    elt.classList.add("user")
+    elt.classList.add("user");
     elt.innerHTML += `
     <a href="./photographer-page.html">
     <section class="user-view" data-id="${user.id}">
@@ -32,7 +32,7 @@ const node = (user) => {
     `
     //Add tags below user cards
     // Display tags inside photographers
-    const tags = elt.querySelector('.tags');
+    let tags = elt.querySelector('.tags');
     user.tags.forEach((tag) => {
         tags.appendChild(tagNode(tag));
     });
@@ -43,26 +43,19 @@ const node = (user) => {
     return elt;
 };
 
-const tagNode = (label, index) => {
-    var elt = document.createElement("a");
-    var list = document.createElement("li");
-    var sp = document.createElement("span");
+export const tagNode = (label, index) => {
+    let elt = document.createElement("a");
+    let list = document.createElement("li");
+    let sp = document.createElement("span");
     list.classList.add("link");
-    filterSelected.includes(label) ? list.classList.add("active") : false;
+    filterSelected.includes(label) ? list.classList.add("active") : list.classList.remove("active");
     sp.classList.add("tag");
     sp.setAttribute("tabindex", index);
     sp.textContent = "#" + label;
     list.appendChild(sp);
     elt.appendChild(list);
     elt.addEventListener("click", () => {
-        //Toggling filters in filterSelected array;
-        let index = filterSelected.indexOf(label);
-        if (index === -1) {
-            filterSelected.push(label);
-        } else {
-            filterSelected.splice(index, 1);
-        }
-        elt.querySelector(".link").classList.toggle("active");
+        (filterSelected.indexOf(label) >= 0) ? filterSelected.splice(filterSelected.indexOf(label), 1): filterSelected.push(label);
         drawFeed();
     })
     return elt;
@@ -76,6 +69,7 @@ function drawFeed() {
 
     photographers.forEach((photographer, index) => {
 
+        //#:=> to ternary
         photographer.tags.forEach((string) => {
             if (!homeTagsList.includes(string))
                 homeTagsList.push(string);
@@ -88,6 +82,7 @@ function drawFeed() {
     })
     homeTagsList.forEach((e) => menuBar.appendChild(tagNode(e)));
 };
+
 drawFeed();
 //Homepage top bar tags display after parsing thru all object response
 //#:add event listener with call to filtering function

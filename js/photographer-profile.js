@@ -2,13 +2,16 @@
 const modalOverlay = document.querySelector('.modal-overlay')
 const closeBtn = document.querySelector('.close-btn')
 const userHeader = document.querySelector('.user-header')
-var displayId = 243; //parseInt(sessionStorage.getItem("displayId"));
+var displayId = parseInt(sessionStorage.getItem("displayId"));
 // add verification
 const data = await fetch("../data.json").then(res => res.json())
 const displayUser = data.photographers.filter(obj => obj.id == displayId)[0];
 // display current photographer
 let filterSelected = [];
+
+//#:export module
 const tagNode = (label, index) => {
+    //#: => to const
     var elt = document.createElement("a");
     var list = document.createElement("li");
     var sp = document.createElement("span");
@@ -21,11 +24,10 @@ const tagNode = (label, index) => {
     elt.appendChild(list);
     elt.addEventListener("click", () => {
         //Toggling filters in filterSelected array;
-        let yndex = filterSelected.indexOf(label);
-        if (yndex === -1) {
+        if (filterSelected.indexOf(label) === -1) {
             filterSelected.push(label);
         } else {
-            filterSelected.splice(yndex, 1);
+            filterSelected.splice(index, 1);
         }
         elt.querySelector(".link").classList.toggle("active");
         drawMedia();
@@ -49,6 +51,7 @@ displayUser.tags.forEach((tag) => {
 })
 
 // contact modal
+// Refactor into toggle
 const contact = document.querySelector('.contact')
 contact.addEventListener('click', function () {
     modalOverlay.classList.add('open-modal')
@@ -59,13 +62,13 @@ closeBtn.addEventListener('click', function () {
 })
 
 // display images 
-//convert to function => add verif for sort variable here
-//popular by defaut. Event listener on menu list. Recall
-//clear feed then draw feed (this.function) again
 function drawMedia() {
     let imagesContainer = document.querySelector('.content-container')
     imagesContainer.querySelectorAll(".img-card").forEach(obj => obj.remove())
     let currentPhotographer = data.media.filter(obj => ((obj.photographerId == displayUser.id)));
+    //#:add sorting option
+    //convert to function => add verif for sort variable here
+    //popular by defaut. Event listener on menu list. Recall
     currentPhotographer.forEach(item => {
         //leave that way, adjust after compromising on new object property for path
         //#:Hacky ask backend to review naming conventions
