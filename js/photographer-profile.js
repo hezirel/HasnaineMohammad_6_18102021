@@ -11,25 +11,18 @@ let filterSelected = [];
 
 //#:export module
 const tagNode = (label, index) => {
-    //#: => to const
-    var elt = document.createElement("a");
-    var list = document.createElement("li");
-    var sp = document.createElement("span");
+    let elt = document.createElement("a");
+    let list = document.createElement("li");
+    let sp = document.createElement("span");
     list.classList.add("link");
-    filterSelected.includes(label) ? list.classList.add("active") : false;
+    filterSelected.includes(label) ? list.classList.add("active") : list.classList.remove("active");
     sp.classList.add("tag");
     sp.setAttribute("tabindex", index);
     sp.textContent = "#" + label;
     list.appendChild(sp);
     elt.appendChild(list);
     elt.addEventListener("click", () => {
-        //Toggling filters in filterSelected array;
-        if (filterSelected.indexOf(label) === -1) {
-            filterSelected.push(label);
-        } else {
-            filterSelected.splice(index, 1);
-        }
-        elt.querySelector(".link").classList.toggle("active");
+        (filterSelected.indexOf(label) >= 0) ? filterSelected.splice(filterSelected.indexOf(label), 1): filterSelected.push(label);
         drawMedia();
     })
     return elt;
@@ -45,11 +38,6 @@ userHeader.innerHTML = `
 <button class="btn contact">contactez-moi</button>
 <img class="profile-pic mobile" src="../images/profiles/${displayUser.portrait}" alt="">
 `
-const headerLinks = document.querySelector('.header-links')
-displayUser.tags.forEach((tag) => {
-    headerLinks.appendChild(tagNode(tag));
-})
-
 // contact modal
 // Refactor into toggle
 const contact = document.querySelector('.contact')
@@ -63,7 +51,12 @@ closeBtn.addEventListener('click', function () {
 
 // display images 
 function drawMedia() {
+    const headerLinks = document.querySelector('.header-links')
     let imagesContainer = document.querySelector('.content-container')
+    headerLinks.innerHTML = "";
+    displayUser.tags.forEach((tag) => {
+        headerLinks.appendChild(tagNode(tag));
+    })
     imagesContainer.querySelectorAll(".img-card").forEach(obj => obj.remove())
     let currentPhotographer = data.media.filter(obj => ((obj.photographerId == displayUser.id)));
     //#:add sorting option

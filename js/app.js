@@ -68,22 +68,18 @@ function drawFeed() {
     menuBar.querySelectorAll("a").forEach(obj => obj.remove())
 
     photographers.forEach((photographer, index) => {
-
-        //#:=> to ternary
         photographer.tags.forEach((string) => {
-            if (!homeTagsList.includes(string))
-                homeTagsList.push(string);
+            !homeTagsList.includes(string) ? homeTagsList.push(string) : false;
         });
-
         //if filter query is true OR user.tags includes filterquery
         if (photographer.tags.some((e) => filterSelected.includes(e)) || !filterSelected[0]) {
             homeContainer.appendChild(node(photographer));
         }
     })
+
     homeTagsList.forEach((e) => menuBar.appendChild(tagNode(e)));
 };
 
 drawFeed();
 //Homepage top bar tags display after parsing thru all object response
 //#:add event listener with call to filtering function
-//Node constructor better innerHTML or individual attr setting ?
