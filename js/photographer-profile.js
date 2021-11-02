@@ -6,8 +6,12 @@ var displayId = parseInt(sessionStorage.getItem("displayId"));
 // add verification
 const data = await fetch("../data.json").then(res => res.json())
 const displayUser = data.photographers.filter(obj => obj.id == displayId)[0];
+const photographers = data.media.filter((obj => obj.photographerId == displayId));
 // display current photographer
+
+const homeContainer = document.querySelector('.content-container')
 let filterSelected = [];
+let homeTagsList = [];
 
 //#:export module
 const tagNode = (label, index) => {
@@ -23,8 +27,24 @@ const tagNode = (label, index) => {
     elt.appendChild(list);
     elt.addEventListener("click", () => {
         (filterSelected.indexOf(label) >= 0) ? filterSelected.splice(filterSelected.indexOf(label), 1): filterSelected.push(label);
-        drawMedia();
+        drawFeed(photographers);
     })
+    return elt;
+};
+
+const mediaNode = (media, index) => {
+    let elt = document.createElement("article");
+    elt.classList.add("img-card");
+    var name = displayUser.name.split(" ")[0];
+    elt.innerHTML = `
+    <img class="feed-img" src="../images/${name}/${media.image}" alt="" tabindex="${index}">
+                <div class="card-bottom">
+                    <p class="img-title">${media.title}</p>
+                    <div class="like">
+                        <p class="like-count">${media.likes}</p>
+                        <i class="fas fa-heart"></i>
+                    </div>
+                </div>`
     return elt;
 }
 
@@ -38,6 +58,7 @@ userHeader.innerHTML = `
 <button class="btn contact">contactez-moi</button>
 <img class="profile-pic mobile" src="../images/profiles/${displayUser.portrait}" alt="">
 `
+const menuBar = document.querySelector('.header-links');
 // contact modal
 // Refactor into toggle
 const contact = document.querySelector('.contact')
@@ -50,40 +71,22 @@ closeBtn.addEventListener('click', function () {
 })
 
 // display images 
-function drawMedia() {
-    const headerLinks = document.querySelector('.header-links')
-    let imagesContainer = document.querySelector('.content-container')
-    headerLinks.innerHTML = "";
-    displayUser.tags.forEach((tag) => {
-        headerLinks.appendChild(tagNode(tag));
-    })
-    imagesContainer.querySelectorAll(".img-card").forEach(obj => obj.remove())
-    let currentPhotographer = data.media.filter(obj => ((obj.photographerId == displayUser.id)));
-    //#:add sorting option
-    //convert to function => add verif for sort variable here
-    //popular by defaut. Event listener on menu list. Recall
-    currentPhotographer.forEach(item => {
-        //leave that way, adjust after compromising on new object property for path
-        //#:Hacky ask backend to review naming conventions
-        var name = displayUser.name.split(" ")[0];
-        if (filterSelected.includes(item.tags[0]) || !filterSelected[0]) {
-            imagesContainer.innerHTML += `
-    <article class="img-card">
-                <img class="feed-img" src="../images/${name}/${item.image}" alt="">
-                <div class="card-bottom">
-                    <p class="img-title">${item.title}</p>
-                    <div class="like">
-                        <p class="like-count">${item.likes}</p>
-                        <i class="fas fa-heart"></i>
-                    </div>
-                </div>
-            </article>
-    `
+function drawFeed(data) {
+    homeContainer.querySelectorAll(".img-card").forEach(obj => obj.remove())
+    menuBar.querySelectorAll("a").forEach(obj => obj.remove())
+    data.forEach((photographer, index) => {
+        photographer.tags.forEach((string) => {
+            !homeTagsList.includes(string) ? homeTagsList.push(string) : false;
+        });
+        //if filter query is true OR user.tags includes filterquery
+        if (filterSelected.some((e => photographer.tags.includes(e)))|| !filterSelected[0]) {
+            homeContainer.appendChild(mediaNode(photographer));
         }
     })
-}
-drawMedia();
 
+    homeTagsList.forEach((e, index) => menuBar.appendChild(tagNode(e, index)));
+};
+drawFeed(photographers);
 const imgTitle = document.querySelector('.slide-img-title')
 const imgCard = document.querySelectorAll('.img-card')
 const sliderModalContainer = document.querySelector('.modal-slider-container')

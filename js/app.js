@@ -10,10 +10,9 @@ const homeContainer = document.querySelector('.home-container');
 const menuBar = document.querySelector('.links');
 let homeTagsList = [];
 let filterSelected = [];
-
 //User card node constructor
 //Define object template and assign user.attr values ?
-const node = (user) => {
+const userNode = (user) => {
     var elt = document.createElement("article");
     elt.classList.add("user");
     elt.innerHTML += `
@@ -33,8 +32,8 @@ const node = (user) => {
     //Add tags below user cards
     // Display tags inside photographers
     let tags = elt.querySelector('.tags');
-    user.tags.forEach((tag) => {
-        tags.appendChild(tagNode(tag));
+    user.tags.forEach((tag, index) => {
+        tags.appendChild(tagNode(tag, index));
     });
 
     elt.addEventListener('click', function () {
@@ -43,7 +42,7 @@ const node = (user) => {
     return elt;
 };
 
-export const tagNode = (label, index) => {
+const tagNode = (label, index) => {
     let elt = document.createElement("a");
     let list = document.createElement("li");
     let sp = document.createElement("span");
@@ -55,31 +54,28 @@ export const tagNode = (label, index) => {
     list.appendChild(sp);
     elt.appendChild(list);
     elt.addEventListener("click", () => {
-        (filterSelected.indexOf(label) >= 0) ? filterSelected.splice(filterSelected.indexOf(label), 1): filterSelected.push(label);
-        drawFeed();
+        (filterSelected.indexOf(label) >= 0) ? filterSelected.splice(filterSelected.indexOf(label), 1) : filterSelected.push(label);
+        drawFeed(photographers);
     })
     return elt;
-}
-
+};
 //Reuse pattern from homepage to filter user for filtering medias.
 //Event loop for this function ? No -> on change event from filter query
-function drawFeed() {
+function drawFeed(data) {
     homeContainer.querySelectorAll(".user").forEach(obj => obj.remove())
     menuBar.querySelectorAll("a").forEach(obj => obj.remove())
-
-    photographers.forEach((photographer, index) => {
+    data.forEach((photographer, index) => {
         photographer.tags.forEach((string) => {
             !homeTagsList.includes(string) ? homeTagsList.push(string) : false;
         });
         //if filter query is true OR user.tags includes filterquery
-        if (photographer.tags.some((e) => filterSelected.includes(e)) || !filterSelected[0]) {
-            homeContainer.appendChild(node(photographer));
+        if (filterSelected.some((e => photographer.tags.includes(e)))|| !filterSelected[0]) {
+            homeContainer.appendChild(userNode(photographer));
         }
     })
 
-    homeTagsList.forEach((e) => menuBar.appendChild(tagNode(e)));
+    homeTagsList.forEach((e, index) => menuBar.appendChild(tagNode(e, index)));
 };
-
-drawFeed();
+drawFeed(photographers);
 //Homepage top bar tags display after parsing thru all object response
 //#:add event listener with call to filtering function
