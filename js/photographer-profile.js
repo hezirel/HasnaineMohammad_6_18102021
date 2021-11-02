@@ -7,64 +7,9 @@ const displayUser = data.photographers.filter(obj => obj.id == displayId)[0];
 const photographers = data.media.filter((obj => obj.photographerId == displayId));
 // display current photographer
 
-const homeContainer = document.querySelector('.content-container')
+const homeContainer = document.querySelector('.content-container');
 let filterSelected = [];
 let homeTagsList = [];
-
-//#:export module
-const tagNode = (label, index) => {
-    let elt = document.createElement("a");
-    let list = document.createElement("li");
-    let sp = document.createElement("span");
-    list.classList.add("link");
-    filterSelected.includes(label) ? list.classList.add("active") : list.classList.remove("active");
-    sp.classList.add("tag");
-    sp.setAttribute("tabindex", index);
-    sp.textContent = "#" + label;
-    list.appendChild(sp);
-    elt.appendChild(list);
-    elt.addEventListener("click", () => {
-        (filterSelected.indexOf(label) >= 0) ? filterSelected.splice(filterSelected.indexOf(label), 1): filterSelected.push(label);
-        drawFeed(photographers);
-    })
-    return elt;
-};
-
-const mediaNode = (media, index) => {
-    let elt = document.createElement("article");
-    elt.classList.add("img-card");
-    var name = displayUser.name.split(" ")[0];
-    elt.innerHTML = `
-    <img class="feed-img" src="../images/${name}/${media.image}" alt="" tabindex="${index}">
-                <div class="card-bottom">
-                    <p class="img-title">${media.title}</p>
-                    <div class="like">
-                        <p class="like-count">${media.likes}</p>
-                        <i class="fas fa-heart"></i>
-                    </div>
-                </div>`
-    return elt;
-}
-
-function drawFeed(data) {
-    let node;
-    let card;
-    window.location.pathname.split("/").pop() === "index.html" ? (node = userNode,card = ".user") : (node = mediaNode,card = ".img-card");
-    homeContainer.querySelectorAll(card).forEach(obj => obj.remove())
-    menuBar.querySelectorAll("a").forEach(obj => obj.remove())
-    data.forEach((item, index) => {
-        item.tags.forEach((string) => {
-            !homeTagsList.includes(string) ? homeTagsList.push(string) : false;
-        });
-        //if filter query is true OR item.tags includes filterquery
-        if (filterSelected.some((e => item.tags.includes(e)))|| !filterSelected[0]) {
-            homeContainer.appendChild(node(item));
-        }
-    })
-
-    homeTagsList.forEach((e, index) => menuBar.appendChild(tagNode(e, index)));
-};
-
 userHeader.innerHTML = `
 <div class="user-info">
     <h1 class="username">${displayUser.name}</h1>
@@ -75,6 +20,8 @@ userHeader.innerHTML = `
 <button class="btn contact">contactez-moi</button>
 <img class="profile-pic mobile" src="../images/profiles/${displayUser.portrait}" alt="">
 `
+
+//#:export module
 const menuBar = document.querySelector('.header-links');
 
 // contact modal
@@ -91,7 +38,9 @@ closeBtn.addEventListener('click', function () {
 })
 
 // display images 
-drawFeed(photographers);
+import * as Fn from './const.js';
+
+Fn.drawFeed(photographers);
 const imgTitle = document.querySelector('.slide-img-title')
 const imgCard = document.querySelectorAll('.img-card')
 const sliderModalContainer = document.querySelector('.modal-slider-container')
