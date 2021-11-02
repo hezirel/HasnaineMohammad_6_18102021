@@ -1,10 +1,8 @@
 // elements from document
-const modalOverlay = document.querySelector('.modal-overlay')
-const closeBtn = document.querySelector('.close-btn')
 const userHeader = document.querySelector('.user-header')
-var displayId = parseInt(sessionStorage.getItem("displayId"));
-// add verification
 const data = await fetch("../data.json").then(res => res.json())
+// add verification
+const displayId = parseInt(sessionStorage.getItem("displayId"));
 const displayUser = data.photographers.filter(obj => obj.id == displayId)[0];
 const photographers = data.media.filter((obj => obj.photographerId == displayId));
 // display current photographer
@@ -48,31 +46,7 @@ const mediaNode = (media, index) => {
     return elt;
 }
 
-userHeader.innerHTML = `
-<div class="user-info">
-    <h1 class="username">${displayUser.name}</h1>
-    <p class="user-loc"><span class="city">${displayUser.city}</span>, <span class="country">${displayUser.country}</span></p>
-    <p class="user-tagline">${displayUser.tagline}</p>
-    <ul class="links header-links"></ul>
-</div>
-<button class="btn contact">contactez-moi</button>
-<img class="profile-pic mobile" src="../images/profiles/${displayUser.portrait}" alt="">
-`
-const menuBar = document.querySelector('.header-links');
-// contact modal
-// Refactor into toggle
-const contact = document.querySelector('.contact')
-contact.addEventListener('click', function () {
-    modalOverlay.classList.add('open-modal')
-})
-
-closeBtn.addEventListener('click', function () {
-    modalOverlay.classList.remove('open-modal')
-})
-
-// display images 
 function drawFeed(data) {
-
     let node;
     window.location.pathname.split("/").pop() === "index.html" ? node = userNode : node = mediaNode;
     homeContainer.querySelectorAll(".img-card").forEach(obj => obj.remove())
@@ -89,6 +63,33 @@ function drawFeed(data) {
 
     homeTagsList.forEach((e, index) => menuBar.appendChild(tagNode(e, index)));
 };
+
+userHeader.innerHTML = `
+<div class="user-info">
+    <h1 class="username">${displayUser.name}</h1>
+    <p class="user-loc"><span class="city">${displayUser.city}</span>, <span class="country">${displayUser.country}</span></p>
+    <p class="user-tagline">${displayUser.tagline}</p>
+    <ul class="links header-links"></ul>
+</div>
+<button class="btn contact">contactez-moi</button>
+<img class="profile-pic mobile" src="../images/profiles/${displayUser.portrait}" alt="">
+`
+const menuBar = document.querySelector('.header-links');
+
+// contact modal
+// Refactor into toggle
+const modalOverlay = document.querySelector('.modal-overlay')
+const closeBtn = document.querySelector('.close-btn')
+const contact = document.querySelector('.contact')
+contact.addEventListener('click', function () {
+    modalOverlay.classList.add('open-modal')
+})
+
+closeBtn.addEventListener('click', function () {
+    modalOverlay.classList.remove('open-modal')
+})
+
+// display images 
 drawFeed(photographers);
 const imgTitle = document.querySelector('.slide-img-title')
 const imgCard = document.querySelectorAll('.img-card')

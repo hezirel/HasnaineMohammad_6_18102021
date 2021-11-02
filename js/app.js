@@ -42,6 +42,22 @@ const userNode = (user) => {
     return elt;
 };
 
+const mediaNode = (media, index) => {
+    let elt = document.createElement("article");
+    elt.classList.add("img-card");
+    var name = displayUser.name.split(" ")[0];
+    elt.innerHTML = `
+    <img class="feed-img" src="../images/${name}/${media.image}" alt="" tabindex="${index}">
+                <div class="card-bottom">
+                    <p class="img-title">${media.title}</p>
+                    <div class="like">
+                        <p class="like-count">${media.likes}</p>
+                        <i class="fas fa-heart"></i>
+                    </div>
+                </div>`
+    return elt;
+}
+
 const tagNode = (label, index) => {
     let elt = document.createElement("a");
     let list = document.createElement("li");
@@ -59,6 +75,7 @@ const tagNode = (label, index) => {
     })
     return elt;
 };
+
 //Reuse pattern from homepage to filter user for filtering medias.
 //Event loop for this function ? No -> on change event from filter query
 function drawFeed(data) {
