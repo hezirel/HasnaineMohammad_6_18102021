@@ -30,7 +30,6 @@ const userNode = (user) => {
 </section>
     `
     //Add tags below user cards
-    // Display tags inside photographers
     let tags = elt.querySelector('.tags');
     user.tags.forEach((tag, index) => {
         tags.appendChild(tagNode(tag, index));
@@ -56,7 +55,7 @@ const mediaNode = (media, index) => {
                     </div>
                 </div>`
     return elt;
-}
+};
 
 const tagNode = (label, index) => {
     let elt = document.createElement("a");
@@ -80,21 +79,24 @@ const tagNode = (label, index) => {
 //Event loop for this function ? No -> on change event from filter query
 function drawFeed(data) {
     let node;
-    window.location.pathname.split("/").pop() === "index.html" ? node = userNode : node = mediaNode;
-    homeContainer.querySelectorAll(".img-card").forEach(obj => obj.remove())
+    let card;
+    window.location.pathname.split("/").pop() === "index.html" ? (node = userNode,card = ".user") : (node = mediaNode,card = ".img-card");
+    homeContainer.querySelectorAll(card).forEach(obj => obj.remove())
     menuBar.querySelectorAll("a").forEach(obj => obj.remove())
-    data.forEach((photographer, index) => {
-        photographer.tags.forEach((string) => {
+    data.forEach((item, index) => {
+        item.tags.forEach((string) => {
             !homeTagsList.includes(string) ? homeTagsList.push(string) : false;
         });
-        //if filter query is true OR user.tags includes filterquery
-        if (filterSelected.some((e => photographer.tags.includes(e)))|| !filterSelected[0]) {
-            homeContainer.appendChild(node(photographer));
+        //if filter query is true OR item.tags includes filterquery
+        if (filterSelected.some((e => item.tags.includes(e)))|| !filterSelected[0]) {
+            homeContainer.appendChild(node(item));
         }
     })
 
     homeTagsList.forEach((e, index) => menuBar.appendChild(tagNode(e, index)));
 };
+
+
 drawFeed(photographers);
 //Homepage top bar tags display after parsing thru all object response
 //#:add event listener with call to filtering function

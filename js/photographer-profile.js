@@ -48,16 +48,17 @@ const mediaNode = (media, index) => {
 
 function drawFeed(data) {
     let node;
-    window.location.pathname.split("/").pop() === "index.html" ? node = userNode : node = mediaNode;
-    homeContainer.querySelectorAll(".img-card").forEach(obj => obj.remove())
+    let card;
+    window.location.pathname.split("/").pop() === "index.html" ? (node = userNode,card = ".user") : (node = mediaNode,card = ".img-card");
+    homeContainer.querySelectorAll(card).forEach(obj => obj.remove())
     menuBar.querySelectorAll("a").forEach(obj => obj.remove())
-    data.forEach((photographer, index) => {
-        photographer.tags.forEach((string) => {
+    data.forEach((item, index) => {
+        item.tags.forEach((string) => {
             !homeTagsList.includes(string) ? homeTagsList.push(string) : false;
         });
-        //if filter query is true OR user.tags includes filterquery
-        if (filterSelected.some((e => photographer.tags.includes(e)))|| !filterSelected[0]) {
-            homeContainer.appendChild(node(photographer));
+        //if filter query is true OR item.tags includes filterquery
+        if (filterSelected.some((e => item.tags.includes(e)))|| !filterSelected[0]) {
+            homeContainer.appendChild(node(item));
         }
     })
 
