@@ -72,6 +72,9 @@ closeBtn.addEventListener('click', function () {
 
 // display images 
 function drawFeed(data) {
+
+    let node;
+    window.location.pathname.split("/").pop() === "index.html" ? node = userNode : node = mediaNode;
     homeContainer.querySelectorAll(".img-card").forEach(obj => obj.remove())
     menuBar.querySelectorAll("a").forEach(obj => obj.remove())
     data.forEach((photographer, index) => {
@@ -80,7 +83,7 @@ function drawFeed(data) {
         });
         //if filter query is true OR user.tags includes filterquery
         if (filterSelected.some((e => photographer.tags.includes(e)))|| !filterSelected[0]) {
-            homeContainer.appendChild(mediaNode(photographer));
+            homeContainer.appendChild(node(photographer));
         }
     })
 

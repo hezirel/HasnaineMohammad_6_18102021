@@ -62,7 +62,9 @@ const tagNode = (label, index) => {
 //Reuse pattern from homepage to filter user for filtering medias.
 //Event loop for this function ? No -> on change event from filter query
 function drawFeed(data) {
-    homeContainer.querySelectorAll(".user").forEach(obj => obj.remove())
+    let node;
+    window.location.pathname.split("/").pop() === "index.html" ? node = userNode : node = mediaNode;
+    homeContainer.querySelectorAll(".img-card").forEach(obj => obj.remove())
     menuBar.querySelectorAll("a").forEach(obj => obj.remove())
     data.forEach((photographer, index) => {
         photographer.tags.forEach((string) => {
@@ -70,7 +72,7 @@ function drawFeed(data) {
         });
         //if filter query is true OR user.tags includes filterquery
         if (filterSelected.some((e => photographer.tags.includes(e)))|| !filterSelected[0]) {
-            homeContainer.appendChild(userNode(photographer));
+            homeContainer.appendChild(node(photographer));
         }
     })
 
