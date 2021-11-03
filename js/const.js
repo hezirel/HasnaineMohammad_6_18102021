@@ -8,7 +8,7 @@ const userNode = (user) => {
     var elt = document.createElement("article");
     elt.classList.add("user");
     elt.innerHTML += `
-    <a href="./photographer-page.html">
+    <a href="./pages/photographer-page.html">
     <section class="user-view" data-id="${user.id}">
         <img class="profile-pic" src="../images/profiles/${user.portrait}" alt="${user.name}">
         <h1 class="username">${user.name}</h1>
