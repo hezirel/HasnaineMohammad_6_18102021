@@ -1,3 +1,10 @@
+//#:Add error handler .then or .catch function => display http error
+export const data = await fetch("../data.json").then(res => res.json());
+export const displayId = parseInt(sessionStorage.getItem("displayId"));
+export const displayUser = data.photographers.filter(obj => obj.id == displayId)[0];
+export const feed = data.media.filter((obj => obj.photographerId == displayId));
+
+//User card node constructor
 export const userNode = (user) => {
     var elt = document.createElement("article");
     elt.classList.add("user");
@@ -29,7 +36,6 @@ export const userNode = (user) => {
 
 export const mediaNode = (media, index) => {
     let elt = document.createElement("article");
-    let displayId = parseInt(sessionStorage.getItem("displayId"));
     elt.classList.add("img-card");
     elt.innerHTML = `
     <img class="feed-img" src="../images/${displayId}/${media.image}" alt="" tabindex="${index}">
@@ -47,11 +53,11 @@ export const tagNode = (label, index) => {
     let elt = document.createElement("a");
     let list = document.createElement("li");
     let sp = document.createElement("span");
-    let x = sessionStorage.getItem('filters');
+    let active = sessionStorage.getItem('filters');
     list.classList.add("link");
-    if (x) {
-        x = sessionStorage.getItem('filters').split(",");
-        x.includes(label) ? list.classList.add("active") : list.classList.remove("active");
+    if (active) {
+        active = sessionStorage.getItem('filters').split(",");
+        active.includes(label) ? list.classList.add("active") : list.classList.remove("active");
     }
     sp.classList.add("tag");
     sp.setAttribute("tabindex", index);
@@ -66,6 +72,7 @@ export const tagNode = (label, index) => {
             arr.includes(label) ? arr.splice(arr.indexOf(label), 1) : arr.push(label);
         }
         sessionStorage.setItem('filters', arr);
+        window.location.pathname.split("/").pop() === "index.html" ? (drawFeed(data.photographers)) : (drawFeed(feed));
     })
     return elt;
 };
@@ -78,7 +85,9 @@ export const drawFeed = (data) => {
     let homeTagsList = [];
     let filterSelected;
     sessionStorage.getItem('filters') ? filterSelected = sessionStorage.getItem('filters').split(",") : filterSelected = [];
+    // ELEMENTS FROM DOCUMENT
     const menuBar = document.querySelector('.header-links');
+    //Homepage top bar tags display after parsing thru all object response
     window.location.pathname.split("/").pop() === "index.html" ? (node = userNode, card = ".user") : (node = mediaNode, card = ".img-card");
     let homeContainer = window.location.pathname.split("/").pop() === "index.html" ? (document.querySelector(".home-container")) : (document.querySelector(".content-container"));
     homeContainer.querySelectorAll(card).forEach(obj => obj.remove())
@@ -93,6 +102,5 @@ export const drawFeed = (data) => {
             homeContainer.appendChild(node(item));
         }
     })
-
     homeTagsList.forEach((e, index) => menuBar.appendChild(tagNode(e, index)));
 };

@@ -1,29 +1,19 @@
+import * as Fn from './const.js';
 // elements from document
 const userHeader = document.querySelector('.user-header')
-const data = await fetch("../data.json").then(res => res.json())
 // add verification
-const displayId = parseInt(sessionStorage.getItem("displayId"));
-const displayUser = data.photographers.filter(obj => obj.id == displayId)[0];
-const photographers = data.media.filter((obj => obj.photographerId == displayId));
 // display current photographer
-
 const homeContainer = document.querySelector('.content-container');
-let filterSelected = [];
-let homeTagsList = [];
 userHeader.innerHTML = `
 <div class="user-info">
-    <h1 class="username">${displayUser.name}</h1>
-    <p class="user-loc"><span class="city">${displayUser.city}</span>, <span class="country">${displayUser.country}</span></p>
-    <p class="user-tagline">${displayUser.tagline}</p>
+    <h1 class="username">${Fn.displayUser.name}</h1>
+    <p class="user-loc"><span class="city">${Fn.displayUser.city}</span>, <span class="country">${Fn.displayUser.country}</span></p>
+    <p class="user-tagline">${Fn.displayUser.tagline}</p>
     <ul class="links header-links"></ul>
 </div>
 <button class="btn contact">contactez-moi</button>
-<img class="profile-pic mobile" src="../images/profiles/${displayUser.portrait}" alt="">
+<img class="profile-pic mobile" src="../images/profiles/${Fn.displayUser.portrait}" alt="">
 `
-
-//#:export module
-const menuBar = document.querySelector('.header-links');
-
 // contact modal
 // Refactor into toggle
 const modalOverlay = document.querySelector('.modal-overlay')
@@ -36,11 +26,9 @@ contact.addEventListener('click', function () {
 closeBtn.addEventListener('click', function () {
     modalOverlay.classList.remove('open-modal')
 })
-
+sessionStorage.getItem('filters') ? sessionStorage.clear('filters') : false;
 // display images 
-import * as Fn from './const.js';
-
-Fn.drawFeed(photographers);
+Fn.drawFeed(Fn.feed);
 const imgTitle = document.querySelector('.slide-img-title')
 const imgCard = document.querySelectorAll('.img-card')
 const sliderModalContainer = document.querySelector('.modal-slider-container')
