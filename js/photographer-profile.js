@@ -1,6 +1,6 @@
 // display current photographer
 const userHeader = document.querySelector('.user-header')
-import { drawFeed, displayUser, feed } from "./const.js";
+import {drawFeed, feed, displayUser} from './const.js';
 userHeader.innerHTML = `
 <div class="user-info">
     <h1 class="username">${displayUser.name}</h1>

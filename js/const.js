@@ -1,9 +1,8 @@
 //#:Add error handler .then or .catch function => display http error
 export const data = await fetch("../data.json").then(res => res.json());
-const displayId = parseInt(sessionStorage.getItem("displayId"));
-export const displayUser = data.photographers.filter(obj => obj.id == displayId)[0];
-export const feed = data.media.filter((obj => obj.photographerId == displayId));
-
+export const displayUser = data.photographers.filter(obj => obj.id == (parseInt(sessionStorage.getItem("displayId"))))[0];
+export const feed = data.media.filter((obj => obj.photographerId == displayUser.id));
+let homeTagsList = [];
 //User card node constructor
 const userNode = (user) => {
     var elt = document.createElement("article");
@@ -38,7 +37,7 @@ const mediaNode = (media, index) => {
     let elt = document.createElement("article");
     elt.classList.add("img-card");
     elt.innerHTML = `
-    <img class="feed-img" src="../images/${displayId}/${media.image}" alt="" tabindex="${index}">
+    <img class="feed-img" src="../images/${displayUser.id}/${media.image}" alt="" tabindex="${index}">
                 <div class="card-bottom">
                     <p class="img-title">${media.title}</p>
                     <div class="like">
@@ -73,49 +72,41 @@ const tagNode = (label, index) => {
     return elt;
 };
 
-const drawMedia = (data, filters) => {
-    let node = mediaNode;
-    let card = ".img-card";
-    let homeTagsList = [];
-    let homeContainer = document.querySelector(".content-container");
-    let menuBar = document.querySelector(".header-links")
+const displaySettings = () => {
+    return (window.location.pathname.split("/").pop() == "index.html" ?
+    {
+        node: userNode,
+        card: ".user",
+        homeContainer: document.querySelector(".home-container"),
+        menuBar: document.querySelector(".header-links"),
+    } : {
+        node: mediaNode,
+        card: ".img-card",
+        homeContainer: document.querySelector(".content-container"),
+        menuBar: document.querySelector(".header-links"),
+    })
+}
 
-    //#:add filtering here
-    homeContainer.querySelectorAll(card)?.forEach(obj => obj.remove());
+const displayFeed = (data, filters) => {
+    let obj = displaySettings();
+    let menuBar = document.querySelector(".header-links");
+    obj.homeContainer.querySelectorAll(obj.card)?.forEach(obj => obj.remove());
     menuBar.querySelectorAll("a")?.forEach(obj => obj.remove());
     data.forEach((item, index) => {
         item.tags.forEach((string) => {
             !homeTagsList.includes(string) ? homeTagsList.push(string) : false;
         })
         if (filters.some((e => item.tags.includes(e))) || !filters[0]) {
-            homeContainer.appendChild(node(item));
+            obj.homeContainer.appendChild(obj.node(item));
         }
     })
     //Homepage top bar tags display after parsing thru all object response
     homeTagsList.forEach((e, index) => menuBar.appendChild(tagNode(e, index)));
 }
 
-const drawUsers = (data, filters) => {
-    let node = userNode;
-    let card = ".user";
-    let homeTagsList = [];
-    let homeContainer = document.querySelector(".home-container");
-    let menuBar = document.querySelector(".header-links")
-
-    if (homeContainer.querySelectorAll(card))
-        homeContainer.querySelectorAll(card).forEach(obj => obj.remove());
-    if (menuBar.querySelectorAll("a"))
-        menuBar.querySelectorAll("a").forEach(obj => obj.remove());
-    data.forEach((item, index) => {
-        item.tags.forEach((string) => {
-            !homeTagsList.includes(string) ? homeTagsList.push(string) : false;
-        })
-        if (filters.some((e => item.tags.includes(e))) || !filters[0]) {
-            homeContainer.appendChild(node(item));
-        }
-    })
-    //Homepage top bar tags display after parsing thru all object response
-    homeTagsList.forEach((e, index) => menuBar.appendChild(tagNode(e, index)));
+const drawMedia = (data, filters) => {
+    // add sorting
+    displayFeed(data, filters);
 }
 
 //Reuse pattern from homepage to filter user for filtering medias.
@@ -123,5 +114,5 @@ const drawUsers = (data, filters) => {
 export const drawFeed = (data) => {
     let filterSelected;
     sessionStorage.getItem('filters') ? filterSelected = sessionStorage.getItem('filters').split(",") : filterSelected = [];
-    window.location.pathname.split("/").pop() === "index.html" ? (drawUsers(data, filterSelected)) : (drawMedia(data, filterSelected));
+    window.location.pathname.split("/").pop() === "index.html" ? (displayFeed(data, filterSelected)) : (drawMedia(data, filterSelected));
 };
