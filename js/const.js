@@ -47,18 +47,25 @@ export const tagNode = (label, index) => {
     let elt = document.createElement("a");
     let list = document.createElement("li");
     let sp = document.createElement("span");
-    let filterSelected;
-    sessionStorage.getItem('filters') ? filterSelected = sessionStorage.getItem('filters') : filterSelected = [];
+    let x = sessionStorage.getItem('filters');
     list.classList.add("link");
-    filterSelected.includes(label) ? list.classList.add("active") : list.classList.remove("active");
+    if (x) {
+        x = sessionStorage.getItem('filters').split(",");
+        x.includes(label) ? list.classList.add("active") : list.classList.remove("active");
+    }
     sp.classList.add("tag");
     sp.setAttribute("tabindex", index);
     sp.textContent = "#" + label;
     list.appendChild(sp);
     elt.appendChild(list);
     elt.addEventListener("click", () => {
-        (filterSelected.indexOf(label) >= 0) ? filterSelected.splice(filterSelected.indexOf(label), 1) : filterSelected.push(label);
-        filterSelected = sessionStorage.setItem('filters', filterSelected);
+        let arr = label;
+        if (sessionStorage.getItem('filters')) {
+            let filterSelected = sessionStorage.getItem('filters');
+            arr = filterSelected.split(",");
+            arr.includes(label) ? arr.splice(arr.indexOf(label), 1) : arr.push(label);
+        }
+        sessionStorage.setItem('filters', arr);
     })
     return elt;
 };
@@ -70,7 +77,7 @@ export const drawFeed = (data) => {
     let card;
     let homeTagsList = [];
     let filterSelected;
-    sessionStorage.getItem('filters') ? filterSelected = sessionStorage.getItem('filters') : filterSelected = [];
+    sessionStorage.getItem('filters') ? filterSelected = sessionStorage.getItem('filters').split(",") : filterSelected = [];
     const menuBar = document.querySelector('.header-links');
     window.location.pathname.split("/").pop() === "index.html" ? (node = userNode, card = ".user") : (node = mediaNode, card = ".img-card");
     let homeContainer = window.location.pathname.split("/").pop() === "index.html" ? (document.querySelector(".home-container")) : (document.querySelector(".content-container"));
@@ -80,6 +87,7 @@ export const drawFeed = (data) => {
         item.tags.forEach((string) => {
             !homeTagsList.includes(string) ? homeTagsList.push(string) : false;
         });
+        //add if (mediaNode) => sorting
         //if filter query is true OR item.tags includes filterquery
         if (filterSelected.some((e => item.tags.includes(e))) || !filterSelected[0]) {
             homeContainer.appendChild(node(item));
