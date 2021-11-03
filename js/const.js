@@ -1,7 +1,7 @@
 //#:Add error handler .then or .catch function => display http error
-export const data = await fetch("../data.json").then(res => res.json());
-export const displayUser = data.photographers.filter(obj => obj.id == (parseInt(sessionStorage.getItem("displayId"))))[0];
-export const feed = data.media.filter((obj => obj.photographerId == displayUser.id));
+const db = await fetch("../data.json").then(res => res.json());
+export const displayUser = db.photographers.filter(obj => obj.id == (parseInt(sessionStorage.getItem("displayId"))))[0];
+export const displayUserFeed = db.media.filter((obj => obj.photographerId == displayUser.id));
 let homeTagsList = [];
 //User card node constructor
 const userNode = (user) => {
@@ -67,7 +67,7 @@ const tagNode = (label, index) => {
             arr.includes(label) ? arr.splice(arr.indexOf(label), 1) : arr.push(label);
         }
         sessionStorage.setItem('filters', arr);
-        window.location.pathname.split("/").pop() === "index.html" ? (drawFeed(data.photographers)) : (drawFeed(feed));
+        window.location.pathname.split("/").pop() === "index.html" ? (drawFeed(db.photographers)) : (drawFeed(displayUserFeed));
     })
     return elt;
 };
@@ -94,7 +94,8 @@ const displayFeed = (data, filters) => {
     menuBar.querySelectorAll("a")?.forEach(obj => obj.remove());
     data.forEach((item, index) => {
         item.tags.forEach((string) => {
-            !homeTagsList.includes(string) ? homeTagsList.push(string) : false;
+            if (!homeTagsList.includes(string)) 
+                homeTagsList.push(string);
         })
         if (filters.some((e => item.tags.includes(e))) || !filters[0]) {
             obj.homeContainer.appendChild(obj.node(item));

@@ -1,2 +1,3 @@
-import { drawFeed, data} from "./const.js";
-drawFeed(data.photographers);
+const homeFeed = await fetch("../data.json").then(res => res.json());
+import {drawFeed} from "./const.js";
+drawFeed(homeFeed.photographers);

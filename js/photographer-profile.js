@@ -1,6 +1,6 @@
 // display current photographer
 const userHeader = document.querySelector('.user-header')
-import {drawFeed, feed, displayUser} from './const.js';
+import {drawFeed, displayUserFeed, displayUser} from './const.js';
 userHeader.innerHTML = `
 <div class="user-info">
     <h1 class="username">${displayUser.name}</h1>
@@ -13,7 +13,7 @@ userHeader.innerHTML = `
 `
 //Reset filters (improvement axis => dynamic tag generation or reset filters each time)
 //sessionStorage.getItem('filters') ? sessionStorage.clear('filters') : false;
-drawFeed(feed);
+drawFeed(displayUserFeed);
 
 // contact modal
 // Refactor into toggle
