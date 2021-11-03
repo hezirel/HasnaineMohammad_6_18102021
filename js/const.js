@@ -1,11 +1,11 @@
 //#:Add error handler .then or .catch function => display http error
 export const data = await fetch("../data.json").then(res => res.json());
-export const displayId = parseInt(sessionStorage.getItem("displayId"));
+const displayId = parseInt(sessionStorage.getItem("displayId"));
 export const displayUser = data.photographers.filter(obj => obj.id == displayId)[0];
 export const feed = data.media.filter((obj => obj.photographerId == displayId));
 
 //User card node constructor
-export const userNode = (user) => {
+const userNode = (user) => {
     var elt = document.createElement("article");
     elt.classList.add("user");
     elt.innerHTML += `
@@ -34,7 +34,7 @@ export const userNode = (user) => {
     return elt;
 };
 
-export const mediaNode = (media, index) => {
+const mediaNode = (media, index) => {
     let elt = document.createElement("article");
     elt.classList.add("img-card");
     elt.innerHTML = `
@@ -49,16 +49,12 @@ export const mediaNode = (media, index) => {
     return elt;
 };
 
-export const tagNode = (label, index) => {
+const tagNode = (label, index) => {
     let elt = document.createElement("a");
     let list = document.createElement("li");
     let sp = document.createElement("span");
-    let active = sessionStorage.getItem('filters');
     list.classList.add("link");
-    if (active) {
-        active = sessionStorage.getItem('filters').split(",");
-        active.includes(label) ? list.classList.add("active") : list.classList.remove("active");
-    }
+    (sessionStorage.getItem('filters')?.split(","))?.includes(label) ? list.classList.add("active") : false;
     sp.classList.add("tag");
     sp.setAttribute("tabindex", index);
     sp.textContent = "#" + label;
@@ -77,30 +73,55 @@ export const tagNode = (label, index) => {
     return elt;
 };
 
-//Reuse pattern from homepage to filter user for filtering medias.
-//Event loop for this function ? No -> on change event from filter query
-export const drawFeed = (data) => {
-    let node;
-    let card;
+const drawMedia = (data, filters) => {
+    let node = mediaNode;
+    let card = ".img-card";
     let homeTagsList = [];
-    let filterSelected;
-    sessionStorage.getItem('filters') ? filterSelected = sessionStorage.getItem('filters').split(",") : filterSelected = [];
-    // ELEMENTS FROM DOCUMENT
-    const menuBar = document.querySelector('.header-links');
-    //Homepage top bar tags display after parsing thru all object response
-    window.location.pathname.split("/").pop() === "index.html" ? (node = userNode, card = ".user") : (node = mediaNode, card = ".img-card");
-    let homeContainer = window.location.pathname.split("/").pop() === "index.html" ? (document.querySelector(".home-container")) : (document.querySelector(".content-container"));
-    homeContainer.querySelectorAll(card).forEach(obj => obj.remove())
-    menuBar.querySelectorAll("a").forEach(obj => obj.remove())
+    let homeContainer = document.querySelector(".content-container");
+    let menuBar = document.querySelector(".header-links")
+
+    //#:add filtering here
+    homeContainer.querySelectorAll(card)?.forEach(obj => obj.remove());
+    menuBar.querySelectorAll("a")?.forEach(obj => obj.remove());
     data.forEach((item, index) => {
         item.tags.forEach((string) => {
             !homeTagsList.includes(string) ? homeTagsList.push(string) : false;
-        });
-        //add if (mediaNode) => sorting
-        //if filter query is true OR item.tags includes filterquery
-        if (filterSelected.some((e => item.tags.includes(e))) || !filterSelected[0]) {
+        })
+        if (filters.some((e => item.tags.includes(e))) || !filters[0]) {
             homeContainer.appendChild(node(item));
         }
     })
+    //Homepage top bar tags display after parsing thru all object response
     homeTagsList.forEach((e, index) => menuBar.appendChild(tagNode(e, index)));
+}
+
+const drawUsers = (data, filters) => {
+    let node = userNode;
+    let card = ".user";
+    let homeTagsList = [];
+    let homeContainer = document.querySelector(".home-container");
+    let menuBar = document.querySelector(".header-links")
+
+    if (homeContainer.querySelectorAll(card))
+        homeContainer.querySelectorAll(card).forEach(obj => obj.remove());
+    if (menuBar.querySelectorAll("a"))
+        menuBar.querySelectorAll("a").forEach(obj => obj.remove());
+    data.forEach((item, index) => {
+        item.tags.forEach((string) => {
+            !homeTagsList.includes(string) ? homeTagsList.push(string) : false;
+        })
+        if (filters.some((e => item.tags.includes(e))) || !filters[0]) {
+            homeContainer.appendChild(node(item));
+        }
+    })
+    //Homepage top bar tags display after parsing thru all object response
+    homeTagsList.forEach((e, index) => menuBar.appendChild(tagNode(e, index)));
+}
+
+//Reuse pattern from homepage to filter user for filtering medias.
+//Event loop for this function ? No -> on change event from filter query
+export const drawFeed = (data) => {
+    let filterSelected;
+    sessionStorage.getItem('filters') ? filterSelected = sessionStorage.getItem('filters').split(",") : filterSelected = [];
+    window.location.pathname.split("/").pop() === "index.html" ? (drawUsers(data, filterSelected)) : (drawMedia(data, filterSelected));
 };

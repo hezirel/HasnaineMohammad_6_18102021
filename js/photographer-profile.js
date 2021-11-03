@@ -1,19 +1,20 @@
-import * as Fn from './const.js';
-// elements from document
-const userHeader = document.querySelector('.user-header')
-// add verification
 // display current photographer
-const homeContainer = document.querySelector('.content-container');
+const userHeader = document.querySelector('.user-header')
+import { drawFeed, displayUser, feed } from "./const.js";
 userHeader.innerHTML = `
 <div class="user-info">
-    <h1 class="username">${Fn.displayUser.name}</h1>
-    <p class="user-loc"><span class="city">${Fn.displayUser.city}</span>, <span class="country">${Fn.displayUser.country}</span></p>
-    <p class="user-tagline">${Fn.displayUser.tagline}</p>
+    <h1 class="username">${displayUser.name}</h1>
+    <p class="user-loc"><span class="city">${displayUser.city}</span>, <span class="country">${displayUser.country}</span></p>
+    <p class="user-tagline">${displayUser.tagline}</p>
     <ul class="links header-links"></ul>
 </div>
 <button class="btn contact">contactez-moi</button>
-<img class="profile-pic mobile" src="../images/profiles/${Fn.displayUser.portrait}" alt="">
+<img class="profile-pic mobile" src="../images/profiles/${displayUser.portrait}" alt="">
 `
+//Reset filters (improvement axis => dynamic tag generation or reset filters each time)
+//sessionStorage.getItem('filters') ? sessionStorage.clear('filters') : false;
+drawFeed(feed);
+
 // contact modal
 // Refactor into toggle
 const modalOverlay = document.querySelector('.modal-overlay')
@@ -26,9 +27,7 @@ contact.addEventListener('click', function () {
 closeBtn.addEventListener('click', function () {
     modalOverlay.classList.remove('open-modal')
 })
-sessionStorage.getItem('filters') ? sessionStorage.clear('filters') : false;
-// display images 
-Fn.drawFeed(Fn.feed);
+
 const imgTitle = document.querySelector('.slide-img-title')
 const imgCard = document.querySelectorAll('.img-card')
 const sliderModalContainer = document.querySelector('.modal-slider-container')
