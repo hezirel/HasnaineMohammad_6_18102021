@@ -1,8 +1,8 @@
-import {drawUserFeed} from './const.js';
+import {drawUserFeed} from '/js/const.js';
 // display current photographer
 const userHeader = document.querySelector('.user-header');
 let userId = parseInt(sessionStorage.getItem("displayId"));
-let database = await fetch("../data.json").then(res => res.json());
+let database = await fetch("/data.json").then(res => res.json());
 let displayUser = database.photographers.filter((obj => obj.id === userId))[0];
 let userMedias = database.media.filter((obj => obj.photographerId === userId));
 userHeader.innerHTML = `
