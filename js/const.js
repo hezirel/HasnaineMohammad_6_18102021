@@ -7,7 +7,7 @@ const userNode = (user, data) => {
     elt.innerHTML += `
     <a href="./pages/photographer-page.html">
     <section class="user-view" data-id="${user.id}">
-        <img class="profile-pic" src="/images/profiles/${user.portrait}" alt="${user.name}">
+        <img class="profile-pic" src="../images/profiles/${user.portrait}" alt="${user.name}">
         <h1 class="username">${user.name}</h1>
     </section>
 </a>
@@ -34,7 +34,7 @@ const mediaNode = (media, index) => {
     let elt = document.createElement("article");
     elt.classList.add("img-card");
     elt.innerHTML = `
-    <img class="feed-img" src="/images/${media.photographerId}/${media.image}" alt="" tabindex="${index}">
+    <img class="feed-img" src="../images/${media.photographerId}/${media.image}" alt="" tabindex="${index}">
                 <div class="card-bottom">
                     <p class="img-title">${media.title}</p>
                     <div class="like">
