@@ -102,25 +102,28 @@ const displayFeed = (data, filters) => {
 }
 
 const drawMedia = (data, filters) => {
-    // add sorting
+    //#:add sorting
     displayFeed(data, filters);
 }
 
 export const drawUserFeed = (mediasList) => {
+    //#:If filter selected includes tags non existing in user media feed
+    // remove them from sessionStorage
     let filterSelectedExisting; 
+    let userMediasTagsList = [];
+    mediasList.forEach(e => {
+            e.tags.forEach(tag => {
+                if (!userMediasTagsList.includes(tag)) 
+                    userMediasTagsList.push(tag);
+                })
+            })
     sessionStorage.getItem('filters') ? filterSelectedExisting = sessionStorage.getItem('filters').split(",") : filterSelectedExisting = [];
-    filterSelectedExisting ? mediasList.forEach((e) => {
-        if (!e.tags.includes())
-    })
-    //if filters selected contains tag that are not found in user media list, remove it
+    //#:Compare Existing with userMediasTagsList, remove
     drawMedia(mediasList, filterSelectedExisting);
 }
-//Reuse pattern from homepage to filter user for filtering medias.
-//Event loop for this function ? No -> on change event from filter query
+
 export const drawHomeFeed = (data) => {
     let filterSelected;
     sessionStorage.getItem('filters') ? filterSelected = sessionStorage.getItem('filters').split(",") : filterSelected = [];
-    //make this function specific to index.html
-    // call another function than drawFeed on profile ?
     displayFeed(data, filterSelected);
 };
