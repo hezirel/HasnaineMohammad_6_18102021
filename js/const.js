@@ -1,7 +1,7 @@
 //#:Add error handler .then or .catch function => display http error
 let homeTagsList = [];
 //User card node constructor
-const userNode = (user) => {
+const userNode = (user, data) => {
     var elt = document.createElement("article");
     elt.classList.add("user");
     elt.innerHTML += `
@@ -21,7 +21,7 @@ const userNode = (user) => {
     //Add tags below user cards
     let tags = elt.querySelector('.tags');
     user.tags.forEach((tag, index) => {
-        tags.appendChild(tagNode(tag, index));
+        tags.appendChild(tagNode(tag, index, data));
     });
 
     elt.addEventListener('click', function () {
@@ -82,6 +82,7 @@ const displaySettings = () => {
     })
 }
 
+//Receive either photographers list or filtered medias list
 const displayFeed = (data, filters) => {
     let obj = displaySettings();
     let menuBar = document.querySelector(".header-links");
@@ -93,7 +94,7 @@ const displayFeed = (data, filters) => {
                 homeTagsList.push(string);
         })
         if (filters.some((e => item.tags.includes(e))) || !filters[0]) {
-            obj.homeContainer.appendChild(obj.node(item));
+            obj.homeContainer.appendChild(obj.node(item, data));
         }
     })
     //Homepage top bar tags display after parsing thru all object response
@@ -117,6 +118,7 @@ export const drawUserFeed = (mediasList) => {
                 })
             })
     sessionStorage.getItem('filters') ? filterSelectedExisting = sessionStorage.getItem('filters').split(",") : filterSelectedExisting = [];
+
     //#:Compare Existing with userMediasTagsList, remove
     drawMedia(mediasList, filterSelectedExisting);
 }
