@@ -46,7 +46,7 @@ const mediaNode = (media, index) => {
     return elt;
 };
 
-const tagNode = (label, index) => {
+const tagNode = (label, index, id) => {
     let elt = document.createElement("a");
     let list = document.createElement("li");
     let sp = document.createElement("span");
@@ -65,7 +65,7 @@ const tagNode = (label, index) => {
             arr.includes(label) ? arr.splice(arr.indexOf(label), 1) : arr.push(label);
         }
         sessionStorage.setItem('filters', arr);
-        window.location.pathname.split("/").pop() === "index.html" ? (drawFeed(db.photographers)) : (drawFeed(displayUserFeed));
+        window.location.pathname.split("/").pop() === "index.html" ? (drawHomeFeed(db.photographers)) : (drawUserFeed(db.media.filter((obj => obj.photographerId === id))));
     })
     return elt;
 };
@@ -98,7 +98,7 @@ const displayFeed = (data, filters) => {
         }
     })
     //Homepage top bar tags display after parsing thru all object response
-    homeTagsList.forEach((e, index) => menuBar.appendChild(tagNode(e, index)));
+    homeTagsList.forEach((e, index) => menuBar.appendChild(tagNode(e, index, data[0].photographerId)));
 }
 
 const drawMedia = (data, filters) => {
@@ -106,10 +106,21 @@ const drawMedia = (data, filters) => {
     displayFeed(data, filters);
 }
 
+export const drawUserFeed = (mediasList) => {
+    let filterSelectedExisting; 
+    sessionStorage.getItem('filters') ? filterSelectedExisting = sessionStorage.getItem('filters').split(",") : filterSelectedExisting = [];
+    filterSelectedExisting ? mediasList.forEach((e) => {
+        if (!e.tags.includes())
+    })
+    //if filters selected contains tag that are not found in user media list, remove it
+    drawMedia(mediasList, filterSelectedExisting);
+}
 //Reuse pattern from homepage to filter user for filtering medias.
 //Event loop for this function ? No -> on change event from filter query
-export const drawFeed = (data) => {
+export const drawHomeFeed = (data) => {
     let filterSelected;
     sessionStorage.getItem('filters') ? filterSelected = sessionStorage.getItem('filters').split(",") : filterSelected = [];
-    window.location.pathname.split("/").pop() === "index.html" ? (displayFeed(data, filterSelected)) : (drawMedia(data, filterSelected));
+    //make this function specific to index.html
+    // call another function than drawFeed on profile ?
+    displayFeed(data, filterSelected);
 };
