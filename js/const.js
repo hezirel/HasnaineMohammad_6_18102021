@@ -1,7 +1,5 @@
 //#:Add error handler .then or .catch function => display http error
 const db = await fetch("../data.json").then(res => res.json());
-export const displayUser = db.photographers.filter(obj => obj.id == (parseInt(sessionStorage.getItem("displayId"))))[0];
-export const displayUserFeed = db.media.filter((obj => obj.photographerId == displayUser.id));
 let homeTagsList = [];
 //User card node constructor
 const userNode = (user) => {
@@ -37,7 +35,7 @@ const mediaNode = (media, index) => {
     let elt = document.createElement("article");
     elt.classList.add("img-card");
     elt.innerHTML = `
-    <img class="feed-img" src="../images/${displayUser.id}/${media.image}" alt="" tabindex="${index}">
+    <img class="feed-img" src="../images/${media.photographerId}/${media.image}" alt="" tabindex="${index}">
                 <div class="card-bottom">
                     <p class="img-title">${media.title}</p>
                     <div class="like">
@@ -78,12 +76,10 @@ const displaySettings = () => {
         node: userNode,
         card: ".user",
         homeContainer: document.querySelector(".home-container"),
-        menuBar: document.querySelector(".header-links"),
     } : {
         node: mediaNode,
         card: ".img-card",
         homeContainer: document.querySelector(".content-container"),
-        menuBar: document.querySelector(".header-links"),
     })
 }
 

@@ -1,6 +1,10 @@
+import {drawFeed} from './const.js';
 // display current photographer
-const userHeader = document.querySelector('.user-header')
-import {drawFeed, displayUserFeed, displayUser} from './const.js';
+const userHeader = document.querySelector('.user-header');
+let userId = parseInt(sessionStorage.getItem("displayId"));
+let database = await fetch("../data.json").then(res => res.json());
+let displayUser = database.photographers.filter((obj => obj.id === userId))[0];
+let userMedias = database.media.filter((obj => obj.photographerId === userId));
 userHeader.innerHTML = `
 <div class="user-info">
     <h1 class="username">${displayUser.name}</h1>
@@ -13,7 +17,7 @@ userHeader.innerHTML = `
 `
 //Reset filters (improvement axis => dynamic tag generation or reset filters each time)
 //sessionStorage.getItem('filters') ? sessionStorage.clear('filters') : false;
-drawFeed(displayUserFeed);
+drawFeed(userMedias);
 
 // contact modal
 // Refactor into toggle
