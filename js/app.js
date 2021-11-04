@@ -1,7 +1,7 @@
-const homeFeed = async () => await fetch("../data.json").then(res => res.json());
-const answer = async () => {
+const homeFeed = async () => fetch("./data.json").then(res => res.json());
+const homePageDrawFeed = async () => {
     let res = await homeFeed();
     console.log('answer');
     drawHomeFeed(res.photographers);
 }
-answer();
+homePageDrawFeed();
