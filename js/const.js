@@ -106,7 +106,7 @@ const drawMedia = (data, filters) => {
     displayFeed(data, filters);
 }
 
-export const drawUserFeed = (mediasList) => {
+const drawUserFeed = (mediasList) => {
     //#:If filter selected includes tags non existing in user media feed
     // remove them from sessionStorage
     let filterSelectedExisting; 
@@ -122,7 +122,7 @@ export const drawUserFeed = (mediasList) => {
     drawMedia(mediasList, filterSelectedExisting);
 }
 
-export const drawHomeFeed = (data) => {
+const drawHomeFeed = (data) => {
     let filterSelected;
     sessionStorage.getItem('filters') ? filterSelected = sessionStorage.getItem('filters').split(",") : filterSelected = [];
     displayFeed(data, filterSelected);
