@@ -1,5 +1,4 @@
 //#:Add error handler .then or .catch function => display http error
-const db = await fetch("../data.json").then(res => res.json());
 let homeTagsList = [];
 //User card node constructor
 const userNode = (user) => {
@@ -46,7 +45,7 @@ const mediaNode = (media, index) => {
     return elt;
 };
 
-const tagNode = (label, index, id) => {
+const tagNode = (label, index, data) => {
     let elt = document.createElement("a");
     let list = document.createElement("li");
     let sp = document.createElement("span");
@@ -65,7 +64,7 @@ const tagNode = (label, index, id) => {
             arr.includes(label) ? arr.splice(arr.indexOf(label), 1) : arr.push(label);
         }
         sessionStorage.setItem('filters', arr);
-        window.location.pathname.split("/").pop() === "index.html" ? (drawHomeFeed(db.photographers)) : (drawUserFeed(db.media.filter((obj => obj.photographerId === id))));
+        window.location.pathname.split("/").pop() === "index.html" ? (drawHomeFeed(data)) : (drawUserFeed(data));
     })
     return elt;
 };
@@ -98,7 +97,7 @@ const displayFeed = (data, filters) => {
         }
     })
     //Homepage top bar tags display after parsing thru all object response
-    homeTagsList.forEach((e, index) => menuBar.appendChild(tagNode(e, index, data[0].photographerId)));
+    homeTagsList.forEach((e, index) => menuBar.appendChild(tagNode(e, index, data)));
 }
 
 const drawMedia = (data, filters) => {
