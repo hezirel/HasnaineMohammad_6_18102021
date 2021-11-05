@@ -119,8 +119,8 @@ const likesSorting = (arrayToSort) => {
 
 const dateSorting = (arrayToSort) => {
         arrayToSort.sort((a, b) => {
-        let keyA = Date(a.date)
-        let keyB = Date(b.date)
+        let keyA = new Date(a.date).getTime();
+        let keyB = new Date(b.date).getTime();
         if (keyA < keyB) return -1;
         if (keyA > keyB) return 1;
         return 0;
