@@ -70,26 +70,31 @@
             <img class="profile-pic mobile" src="../images/IMG_2023.jpeg" alt=""> -->
         </section>
         <!-- filter -->
-        <div class="filter">
+        <form class="filter">
             <p>Trier par</p>
+            <select class="dropdown" id="sortingOption">
+                <option class="filter-option btn" value="-1" selected="selected">Popularity</option>
+                <option value="0">Date</option>
+                <option value="1">Title</option>
+            </select>
             <div class="dropdown" tabindex="6">
                 <div class="filter-option btn" tabindex="7">
-                    <input type="radio" id="popularity" name="filter" value="popularity" checked>
+                    <input type="checkbox" id="popularity" name="filter" value="popularity" checked>
                     <label for="popularity">popularité</label>
                     <i class="fas fa-chevron-up"></i>
                 </div>
                 <div class="dropdown-content">
                     <div class="filter-option btn" tabindex="8">
-                        <input type="radio" id="date" name="filter" value="date">
+                        <input type="checkbox" id="date" name="filter" value="date">
                         <label for="date">date</label>
                     </div>
                     <div class="filter-option btn" tabindex="9">
-                        <input type="radio" id="title" name="filter" value="title">
+                        <input type="checkbox" id="title" name="filter" value="title">
                         <label for="title">titre</label>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
         <!-- End of filter -->
         <!-- Main Container Section -->
         <section class="content-container">

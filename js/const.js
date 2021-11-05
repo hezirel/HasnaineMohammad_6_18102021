@@ -1,6 +1,6 @@
 //#:Add error handler .then or .catch function => display http error
 let homeTagsList = [];
-let ghPrefix = "/HasnaineMohammad_6_18102021/";
+let ghPrefix = "../";
 //User card node constructor
 const userNode = (user, index, data) => {
     var elt = document.createElement("article");
@@ -106,9 +106,48 @@ const displayFeed = (data, filters) => {
     homeTagsList.forEach((e, index) => menuBar.appendChild(tagNode(e, index, data)));
 }
 
+const likesSorting = (arrayToSort) => {
+        arrayToSort.sort((a, b) => {
+        let keyA = Number(a.likes)
+        let keyB = Number(b.likes)
+        if (keyA < keyB) return -1;
+        if (keyA > keyB) return 1;
+        return 0;
+    })
+    return arrayToSort;
+}
+
+const dateSorting = (arrayToSort) => {
+        arrayToSort.sort((a, b) => {
+        let keyA = Date(a.date)
+        let keyB = Date(b.date)
+        if (keyA < keyB) return -1;
+        if (keyA > keyB) return 1;
+        return 0;
+    })
+    return arrayToSort;
+}
+
+const titleSorting = (arrayToSort) => {
+        arrayToSort.sort((a, b) => {
+        let keyA = String(a.title)
+        let keyB = String(b.title)
+        if (keyA < keyB) return -1;
+        if (keyA > keyB) return 1;
+        return 0;
+    })
+    return arrayToSort;
+}
+
+//Must receive prefiltered media list for user
 const drawMedia = (data, filters) => {
     //#:add sorting need to select dropdown HTML element
     //then .sort data
+    let arr = [data][0];
+    let sortingOption = parseInt(document.getElementById("sortingOption").value);
+    arr = sortingOption > 0 ? titleSorting(arr)
+        : sortingOption < 0 ? likesSorting(arr)
+        : dateSorting(arr);
     displayFeed(data, filters);
 }
 
