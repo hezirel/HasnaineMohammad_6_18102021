@@ -1,6 +1,6 @@
 //#:Add error handler .then or .catch function => display http error
 let homeTagsList = [];
-let ghPrefix = "../";
+let ghPrefix = "/HasnaineMohammad_6_18102021";
 //User card node constructor
 const userNode = (user, index, data) => {
     var elt = document.createElement("article");
