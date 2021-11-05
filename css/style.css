@@ -245,9 +245,8 @@ main {
 @media screen and (min-width: 769px) {
     .contact {
         position:initial;
-        margin-left: 1rem;
         height:fit-content;
-        font-size:20px;
+        font-size:13px;
     }
     .user-header .username {
         line-height: 56px;

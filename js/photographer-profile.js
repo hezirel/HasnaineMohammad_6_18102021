@@ -26,7 +26,7 @@ let profilePageDrawFeed = async () => {
     const closeBtn = document.querySelector('.close-btn')
     const contact = document.querySelector('.contact')
     contact.addEventListener('click', function () {
-        modalOverlay.classList.add('open-modal')
+        modalOverlay.classList.toggle('open-modal')
     })
 
     closeBtn.addEventListener('click', function () {
