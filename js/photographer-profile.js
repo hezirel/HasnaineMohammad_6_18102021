@@ -16,6 +16,8 @@ let profilePageDrawFeed = async () => {
 <button class="btn contact">contactez-moi</button>
 <img class="profile-pic mobile" src="../images/profiles/${displayUser.portrait}" alt="">
 `
+
+    document.querySelector(".modal-container > h1").textContent += ` ${displayUser.name}`;
     drawUserFeed(userMedias);
     //Reset filters (improvement axis => dynamic tag generation or reset filters each time)
     //sessionStorage.getItem('filters') ? sessionStorage.clear('filters') : false;

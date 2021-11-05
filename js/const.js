@@ -1,6 +1,6 @@
 //#:Add error handler .then or .catch function => display http error
 let homeTagsList = [];
-let ghPrefix = "/HasnaineMohammad_6_18102021/";
+let ghPrefix = "../";
 //User card node constructor
 const userNode = (user, index, data) => {
     var elt = document.createElement("article");
@@ -110,8 +110,8 @@ const likesSorting = (arrayToSort) => {
         arrayToSort.sort((a, b) => {
         let keyA = Number(a.likes)
         let keyB = Number(b.likes)
-        if (keyA < keyB) return -1;
-        if (keyA > keyB) return 1;
+        if (keyA > keyB) return -1;
+        if (keyA < keyB) return 1;
         return 0;
     })
     return arrayToSort;
@@ -149,12 +149,10 @@ const drawMedia = (data, filters) => {
     displayFeed(data, filters);
 }
 
-const drawUserFeed = (mediasList) => {
-    //If filter selected includes tags non existing in user media feed
-    // remove them from sessionStorage
+const nonExistentTagRemover = (feed) => {
     let filterSelectedExisting; 
     let userMediasTagsList = [];
-    mediasList.forEach(e => {
+    feed.forEach(e => {
             e.tags.forEach(tag => {
                 if (!userMediasTagsList.includes(tag)) 
                     userMediasTagsList.push(tag);
@@ -162,13 +160,18 @@ const drawUserFeed = (mediasList) => {
             })
     sessionStorage.getItem('filters') ? filterSelectedExisting = sessionStorage.getItem('filters').split(",") : filterSelectedExisting = [];
     filterSelectedExisting?.forEach((e) => !userMediasTagsList.includes(e) ? filterSelectedExisting.splice(filterSelectedExisting.indexOf(e), 1) : 0)
-    document.querySelector(".dropdown").addEventListener('change', (event) => {drawMedia(mediasList, filterSelectedExisting)});
-    drawMedia(mediasList, filterSelectedExisting);
+    return filterSelectedExisting;
+}
+
+const drawUserFeed = (mediasList) => {
+    //If filter selected includes tags non existing in user media feed
+    // remove them from sessionStorage
+    let filterSelected = nonExistentTagRemover(mediasList); 
+    document.querySelector(".dropdown").addEventListener('change', (event) => {drawMedia(mediasList, filterSelected)});
+    drawMedia(mediasList, filterSelected);
 }
 
 const drawHomeFeed = (data) => {
-    let filterSelected;
-    sessionStorage.getItem('filters') ? filterSelected = sessionStorage.getItem('filters').split(",") : filterSelected = [];
-    console.log(data);
+    let filterSelected = nonExistentTagRemover(data);
     displayFeed(data, filterSelected);
 };
