@@ -125,5 +125,6 @@ const drawUserFeed = (mediasList) => {
 const drawHomeFeed = (data) => {
     let filterSelected;
     sessionStorage.getItem('filters') ? filterSelected = sessionStorage.getItem('filters').split(",") : filterSelected = [];
+    console.log(data);
     displayFeed(data, filterSelected);
 };
