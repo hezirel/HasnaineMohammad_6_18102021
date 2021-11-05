@@ -1,7 +1,7 @@
 //#:Add error handler .then or .catch function => display http error
 let homeTagsList = [];
 //User card node constructor
-const userNode = (user, data) => {
+const userNode = (user, index, data) => {
     var elt = document.createElement("article");
     elt.classList.add("user");
     elt.innerHTML += `
@@ -30,7 +30,7 @@ const userNode = (user, data) => {
     return elt;
 };
 
-const mediaNode = (media, index) => {
+const mediaNode = (media, index, data) => {
     let elt = document.createElement("article");
     elt.classList.add("img-card");
     elt.innerHTML = `
@@ -42,6 +42,12 @@ const mediaNode = (media, index) => {
                         <i class="fas fa-heart"></i>
                     </div>
                 </div>`
+    //#:add eventlistener similar to tagNode, give data object to mediaNode
+    //Recal draw function
+    elt.querySelector(".like").addEventListener("click", () => {
+        media.likes += 1;
+        window.location.pathname.split("/").pop() === "index.html" ? (drawHomeFeed(data)) : (drawUserFeed(data));
+    })
     return elt;
 };
 
@@ -94,7 +100,7 @@ const displayFeed = (data, filters) => {
                 homeTagsList.push(string);
         })
         if (filters.some((e => item.tags.includes(e))) || !filters[0]) {
-            obj.homeContainer.appendChild(obj.node(item, data));
+            obj.homeContainer.appendChild(obj.node(item, index, data));
         }
     })
     //Homepage top bar tags display after parsing thru all object response
@@ -102,7 +108,8 @@ const displayFeed = (data, filters) => {
 }
 
 const drawMedia = (data, filters) => {
-    //#:add sorting
+    //#:add sorting need to select dropdown HTML element
+    //then .sort data
     displayFeed(data, filters);
 }
 
@@ -118,7 +125,7 @@ const drawUserFeed = (mediasList) => {
                 })
             })
     sessionStorage.getItem('filters') ? filterSelectedExisting = sessionStorage.getItem('filters').split(",") : filterSelectedExisting = [];
-    //#:Compare Existing with userMediasTagsList, remove
+    filterSelectedExisting?.forEach((e) => !userMediasTagsList.includes(e) ? filterSelectedExisting.splice(filterSelectedExisting.indexOf(e), 1) : 0)
     drawMedia(mediasList, filterSelectedExisting);
 }
 

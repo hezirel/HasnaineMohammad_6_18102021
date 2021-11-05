@@ -2,7 +2,7 @@
 const userHeader = document.querySelector('.user-header');
 let userId = parseInt(sessionStorage.getItem("displayId"));
 let dataFetch = async () => fetch("../data.json").then(res => res.json());
-let test = async () => {
+let profilePageDrawFeed = async () => {
     let database = await (dataFetch());
     let displayUser = database.photographers.filter((obj => obj.id === userId))[0];
     let userMedias = database.media.filter((obj => obj.photographerId === userId));
@@ -81,4 +81,4 @@ let test = async () => {
         sliderModalContainer.classList.remove('open-slider')
     })
 }
-test();
+profilePageDrawFeed();
