@@ -33,15 +33,14 @@ const userNode = (user, index, data) => {
 const carousel = (index) => {
 	const medias = document.querySelectorAll(".img-card");
 	index = index > medias.length - 1 ? index = 0
-	: index < 0 ? index = medias.length
-	: index;
-	sel = medias[index];
-	console.log(index);
+		: index < 0 ? index = medias.length
+			: index;
+	const sel = medias[index];
 	document.querySelector(".modal-slider-container").classList.add("open-slider");
 	document.querySelector(".slide-img-title").textContent = sel.querySelector(".img-title").textContent;
 	document.querySelector(".lightbox-img").setAttribute("src", sel.querySelector(".feed-img").getAttribute("src"));
-	document.querySelector(".nextBtn").addEventListener("click", () => {carousel(index + 1)});
-}
+	document.querySelector(".nextBtn").addEventListener("click", () => {carousel(index + 1);});
+};
 
 const mediaNode = (media, index, data) => {
 	let elt = document.createElement("article");
