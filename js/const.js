@@ -46,9 +46,10 @@ const carousel = (index) => {
 
 const mediaNode = (media, index, data) => {
 	let elt = document.createElement("article");
+	let src = media.video ? `${ghPrefix}images/${media.photographerId}/${media.video}` : `${ghPrefix}images/${media.photographerId}/${media.image}`;
 	elt.classList.add("img-card");
 	elt.innerHTML = `
-    <img class="feed-img" src="${ghPrefix}images/${media.photographerId}/${media.image}" alt="" tabindex="${index}">
+    <img class="feed-img" src="${src}" alt="" tabindex="${index}">
                 <div class="card-bottom">
                     <p class="img-title">${media.title}</p>
                     <div class="like">
@@ -60,7 +61,7 @@ const mediaNode = (media, index, data) => {
 		media.likes += 1;
 		drawUserFeed(data);
 	});
-	elt.addEventListener("click", () => {
+	elt.querySelector("img").addEventListener("click", () => {
 		carousel(index);
 	});
 	return elt;
@@ -159,7 +160,7 @@ const titleSorting = (arrayToSort) => {
 const drawMedia = (data, filters) => {
 	let arr = [data][0];
 	let sortingOption = parseInt(document.getElementById("sortingOption").value);
-	arr = sortingOption > 0 ? titleSorting(arr)
+	sortingOption > 0 ? titleSorting(arr)
 		: sortingOption < 0 ? likesSorting(arr)
 			: dateSorting(arr);
 	displayFeed(data, filters);

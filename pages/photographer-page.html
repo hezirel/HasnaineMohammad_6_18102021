@@ -21,11 +21,11 @@
             <form>
                 <!-- #:sanitize input -->
                 <label for="fname">Prénom</label><br>
-                <input type="text" id="fname" name="fname"><br>
+                <input type="text" id="fname" name="fname" required pattern="[A-Za-z]{2,20}"><br>
                 <label for="lname">Nom</label><br>
-                <input type="text" id="lname" name="lname"><br>
+                <input type="text" id="lname" name="lname" required pattern="[A-Za-z]{2,20}"><br>
                 <label for="email">Email</label><br>
-                <input type="text" id="email" name="email"><br>
+                <input type="email" id="email" name="email" required><br>
                 <label for="message">Votre message</label><br>
                 <textarea id="message" name="message" rows="5" cols="33">
                 </textarea><br>

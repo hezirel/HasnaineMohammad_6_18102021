@@ -7,6 +7,7 @@ let profilePageDrawFeed = async () => {
 	let userId = parseInt(sessionStorage.getItem("displayId"));
 	let displayUser = database.photographers.filter((obj => obj.id === userId))[0];
 	let userMedias = database.media.filter((obj => obj.photographerId === userId));
+	console.log(userMedias);
 	//COnvert user header populating into func ?
 	document.querySelector(".username").textContent = displayUser.name;
 	document.querySelector(".city").textContent = displayUser.city;
