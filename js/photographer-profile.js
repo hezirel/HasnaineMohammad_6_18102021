@@ -1,51 +1,34 @@
 // display current photographer
-const userHeader = document.querySelector(".user-header");
-let userId = parseInt(sessionStorage.getItem("displayId"));
 let dataFetch = async () => fetch("../data.json").then(res => res.json());
+//#:Add error handler .then or .catch function => display http error
+
 let profilePageDrawFeed = async () => {
 	let database = await (dataFetch());
+	let userId = parseInt(sessionStorage.getItem("displayId"));
 	let displayUser = database.photographers.filter((obj => obj.id === userId))[0];
 	let userMedias = database.media.filter((obj => obj.photographerId === userId));
-	userHeader.innerHTML = `
-    <div class="user-info">
-    <h1 class="username">${displayUser.name}</h1>
-    <p class="user-loc"><span class="city">${displayUser.city}</span>, <span class="country">${displayUser.country}</span></p>
-    <p class="user-tagline">${displayUser.tagline}</p>
-    <ul class="links header-links"></ul>
-</div>
-<button class="btn contact">contactez-moi</button>
-<img class="profile-pic mobile" src="../images/profiles/${displayUser.portrait}" alt="">
-`;
-
+	//COnvert user header populating into func ?
+	document.querySelector(".username").textContent = displayUser.name;
+	document.querySelector(".city").textContent = displayUser.city;
+	document.querySelector(".country").textContent = displayUser.country;
+	document.querySelector(".user-tagline").textContent = displayUser.tagline;
+	document.querySelector(".profile-pic").setAttribute("src", `../images/profiles/${displayUser.portrait}`);
 	document.querySelector(".modal-container > h1").textContent += ` ${displayUser.name}`;
+
 	drawUserFeed(userMedias);
-	//Reset filters (improvement axis => dynamic tag generation or reset filters each time)
-	//sessionStorage.getItem('filters') ? sessionStorage.clear('filters') : false;
 
-	// contact modal
-	// Refactor into toggle
-	//COntinue here
-	const modalOverlay = document.querySelector(".modal-overlay");
-	const closeBtn = document.querySelector(".close-btn");
-	const contact = document.querySelector(".contact");
-
-	contact.addEventListener("click", function () {
-		modalOverlay.classList.toggle("open-modal");
-	});
-
-	closeBtn.addEventListener("click", function () {
-		modalOverlay.classList.remove("open-modal");
-	});
-
+	//#:Move to drawUserFeed
 	const imgTitle = document.querySelector(".slide-img-title");
 	const imgCard = document.querySelectorAll(".img-card");
-	const sliderModalContainer = document.querySelector(".modal-slider-container");
 	const closeSlider = document.querySelector(".close-slider");
 	const slides = document.querySelectorAll(".slide");
 
+	closeSlider.addEventListener("click", function () {
+		document.querySelector(".modal-slider-container").classList.toggle("open-slider");
+	});
+
 	imgCard.forEach(function (card) {
 		card.addEventListener("click", function () {
-			sliderModalContainer.classList.add("open-slider");
 			slides.forEach(function (slide, index) {
 				slide.style.left = `${index * 100}%`;
 			});
@@ -54,7 +37,6 @@ let profilePageDrawFeed = async () => {
 
 	const nextBtn = document.querySelector(".nextBtn");
 	const prevBtn = document.querySelector(".prevBtn");
-
 
 	let counter = 0;
 	nextBtn.addEventListener("click", function () {
@@ -81,8 +63,12 @@ let profilePageDrawFeed = async () => {
 	}
 
 
-	closeSlider.addEventListener("click", function () {
-		sliderModalContainer.classList.remove("open-slider");
-	});
 };
 profilePageDrawFeed();
+
+document.querySelector(".contact").addEventListener("click", function () {
+	document.querySelector(".modal-overlay").classList.toggle("open-modal");
+});
+document.querySelector(".close-btn").addEventListener("click", function () {
+	document.querySelector(".modal-overlay").classList.toggle("open-modal");
+});

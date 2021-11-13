@@ -1,4 +1,3 @@
-//#:Add error handler .then or .catch function => display http error
 let homeTagsList = [];
 let ghPrefix = "../";
 //User card node constructor
@@ -46,6 +45,11 @@ const mediaNode = (media, index, data) => {
 	elt.querySelector(".like").addEventListener("click", () => {
 		media.likes += 1;
 		drawUserFeed(data);
+	});
+	elt.addEventListener("click", () => {
+		document.querySelector(".modal-slider-container").classList.toggle("open-slider");
+		document.querySelector(".slide-img-title").textContent = media.title;
+		document.querySelector(".lightbox-img").setAttribute("src", `${ghPrefix}images/${media.photographerId}/${media.image}`)
 	});
 	return elt;
 };
@@ -158,6 +162,7 @@ const nonExistentTagRemover = (feed) => {
 				userMediasTagsList.push(tag);
 		});
 	});
+	//#:Add comment to explain below operations
 	sessionStorage.getItem("filters") ? filterSelectedExisting = sessionStorage.getItem("filters").split(",") : filterSelectedExisting = [];
 	filterSelectedExisting?.forEach((e) => !userMediasTagsList.includes(e) ? filterSelectedExisting.splice(filterSelectedExisting.indexOf(e), 1) : 0);
 	return filterSelectedExisting;
@@ -167,7 +172,7 @@ const drawUserFeed = (mediasList) => {
 	//If filter selected includes tags non existing in user media feed
 	// remove them from sessionStorage
 	let filterSelected = nonExistentTagRemover(mediasList); 
-	document.querySelector(".dropdown").addEventListener("change", (event) => {drawMedia(mediasList, filterSelected);});
+	document.querySelector(".dropdown").addEventListener("change", () => {drawMedia(mediasList, filterSelected);});
 	drawMedia(mediasList, filterSelected);
 };
 

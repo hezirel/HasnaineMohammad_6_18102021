@@ -19,6 +19,7 @@
             <h1>Contactez-moi</h1>
             <h1 class="modal-username"></h1>
             <form>
+                <!-- #:sanitize input -->
                 <label for="fname">Prénom</label><br>
                 <input type="text" id="fname" name="fname"><br>
                 <label for="lname">Nom</label><br>
@@ -47,27 +48,14 @@
     <main id="photographer-container">
         <!-- User Header -->
         <section class="user-header">
-            <!-- <div class="user-info">
-                <h1 class="username">mimi keel</h1>
-                <p class="user-loc"><span class="city">London</span>, <span class="country">UK</span></p>
-                <p class="user-tagline">Voir le beau dans le quotidien</p>
-                <ul class="links header-links">
-                    <a href="">
-                        <li class="link">#<span class="tag" tabindex="1">portrait</span></li>
-                    </a>
-                    <a href="">
-                        <li class="link">#<span class="tag" tabindex="2">events</span></li>
-                    </a>
-                    <a href="">
-                        <li class="link">#<span class="tag" tabindex="3">travel</span></li>
-                    </a>
-                    <a href="">
-                        <li class="link">#<span class="tag" tabindex="4">animals</span></li>
-                    </a>
-                </ul>
+            <div class="user-info">
+            <h1 class="username"></h1>
+            <p class="user-loc"><span class="city"></span>, <span class="country"></span></p>
+            <p class="user-tagline"></p>
+            <ul class="links header-links"></ul>
             </div>
-            <button class="btn contact">contactez-moi</button>
-            <img class="profile-pic mobile" src="../images/IMG_2023.jpeg" alt=""> -->
+            <button class="btn contact">Contactez-moi</button>
+            <img class="profile-pic mobile" src="" alt="Photograper Profile Pic">
         </section>
         <!-- filter -->
         <form class="filter">
@@ -101,38 +89,19 @@
             <!-- IMAGE SLIDER -->
             <section class="modal-slider-container">
                 <div class="slider-container">
-                    <h3 class="slide-img-title">Arc-en-ciel</h3>
+                    <h3 class="slide-img-title"></h3>
                     <button class="close-slider">
                         <i class="fas fa-times"></i>
                     </button>
-                    <section id="slider" class="slider">
-                        <article class="slide">
-                        </article>
-                        <article class="slide">
-                        </article>
-                        <article class="slide">
-                        </article>
-                    </section>
                     <button type="button" class="prevBtn">
                         <i class="fas fa-chevron-left"></i>
                     </button>
                     <button type="button" class="nextBtn">
                         <i class="fas fa-chevron-right"></i>
                     </button>
+                    <img class="lightbox-img" src="">
                 </div>
             </section>
-            <!-- First card -->
-            <!-- <article class="img-card">
-                <img class="feed-img" src="../images/IMG_2023.jpeg" alt="" tabindex="10">
-                <div class="card-bottom">
-                    <p class="img-title">Arc-en-ciel</p>
-                    <div class="like">
-                        <p class="like-count">12</p>
-                        <i class="fas fa-heart"></i>
-                    </div>
-                </div>
-            </article> -->
-            <!-- End of first card -->
         </section>
     </main>
 
