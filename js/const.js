@@ -1,5 +1,5 @@
 let homeTagsList = [];
-let ghPrefix = "../";
+let ghPrefix = "HasnaineMohammad_6_18102021/";
 //User card node constructor
 const userNode = (user, index, data) => {
 	var elt = document.createElement("article");
@@ -36,20 +36,30 @@ const carousel = (index) => {
 		: index < 0 ? index = medias.length - 1
 			: index;
 	const sel = medias[index];
-	console.log(index);
 	document.querySelector(".modal-slider-container").classList.add("open-slider");
 	document.querySelector(".slide-img-title").textContent = sel.querySelector(".img-title").textContent;
-	document.querySelector(".lightbox-img").setAttribute("src", sel.querySelector(".feed-img").getAttribute("src"));
+	
+	if (sel.querySelector("video")) {
+		document.querySelector(".videosource").setAttribute("src", sel.querySelector(".videosource").getAttribute("src"));
+		document.querySelector(".slider-container > video").style.display = "";
+		document.querySelector(".slider-container > img").style.display = "none";
+	} else {
+		document.querySelector(".lightbox-img").setAttribute("src", sel.querySelector(".feed-img").getAttribute("src"));
+		document.querySelector(".slider-container > video").style.display = "none";
+		document.querySelector(".slider-container > img").style.display = "";
+	}
+
 	document.querySelector(".nextBtn").addEventListener("click", () => {carousel(index + 1);});
 	document.querySelector(".prevBtn").addEventListener("click", () => {carousel(index - 1);});
 };
 
 const mediaNode = (media, index, data) => {
 	let elt = document.createElement("article");
-	let src = media.video ? `${ghPrefix}images/${media.photographerId}/${media.video}` : `${ghPrefix}images/${media.photographerId}/${media.image}`;
 	elt.classList.add("img-card");
-	elt.innerHTML = `
-    <img class="feed-img" src="${src}" alt="" tabindex="${index}">
+	let src = media.image ? `${ghPrefix}images/${media.photographerId}/${media.image}` : `${ghPrefix}images/${media.photographerId}/${media.video}`;
+	elt.innerHTML = media.image ? `<img class="feed-img" src="${src}" alt="" tabindex="${index}">`
+		: `<video class="feed-img"><source class="videosource" src="${src}" type="video/mp4"></video>`;
+	elt.innerHTML += `
                 <div class="card-bottom">
                     <p class="img-title">${media.title}</p>
                     <div class="like">
@@ -61,7 +71,7 @@ const mediaNode = (media, index, data) => {
 		media.likes += 1;
 		drawUserFeed(data);
 	});
-	elt.querySelector("img").addEventListener("click", () => {
+	elt.querySelector(".feed-img").addEventListener("click", () => {
 		carousel(index);
 	});
 	return elt;
