@@ -524,7 +524,7 @@ form input, form textarea {
     left:0;
     height:100%;
     width:100%;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.8);
 }
 .open-slider {
     display:flex;

@@ -30,6 +30,19 @@ const userNode = (user, index, data) => {
 	return elt;
 };
 
+const carousel = (index) => {
+	const medias = document.querySelectorAll(".img-card");
+	index = index > medias.length - 1 ? index = 0
+	: index < 0 ? index = medias.length
+	: index;
+	sel = medias[index];
+	console.log(index);
+	document.querySelector(".modal-slider-container").classList.add("open-slider");
+	document.querySelector(".slide-img-title").textContent = sel.querySelector(".img-title").textContent;
+	document.querySelector(".lightbox-img").setAttribute("src", sel.querySelector(".feed-img").getAttribute("src"));
+	document.querySelector(".nextBtn").addEventListener("click", () => {carousel(index + 1)});
+}
+
 const mediaNode = (media, index, data) => {
 	let elt = document.createElement("article");
 	elt.classList.add("img-card");
@@ -47,9 +60,7 @@ const mediaNode = (media, index, data) => {
 		drawUserFeed(data);
 	});
 	elt.addEventListener("click", () => {
-		document.querySelector(".modal-slider-container").classList.toggle("open-slider");
-		document.querySelector(".slide-img-title").textContent = media.title;
-		document.querySelector(".lightbox-img").setAttribute("src", `${ghPrefix}images/${media.photographerId}/${media.image}`)
+		carousel(index);
 	});
 	return elt;
 };
