@@ -1,5 +1,5 @@
 let homeTagsList = [];
-let ghPrefix = "HasnaineMohammad_6_18102021/";
+let ghPrefix = "../";
 //User card node constructor
 const userNode = (user, index, data) => {
 	var elt = document.createElement("article");
