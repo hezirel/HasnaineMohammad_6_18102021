@@ -34,8 +34,8 @@ const mediaNode = (media, index, data) => {
 	let elt = document.createElement("article");
 	elt.classList.add("img-card");
 	let src = media.image ? `${ghPrefix}images/${media.photographerId}/${media.image}` : `${ghPrefix}images/${media.photographerId}/${media.video}`;
-	elt.innerHTML = media.image ? `<img class="feed-img" src="${src}" alt="${media.title}">`
-		: `<video class="feed-img"><source class="videosource" src="${src}" type="video/mp4"></video>`;
+	elt.innerHTML = media.image ? `<a><img class="feed-img" tabindex=0 src="${src}" alt="${media.title}"></a>`
+		: `<a><video class="feed-img" tabindex=0><source class="videosource" src="${src}" type="video/mp4"></video></a>`;
 	elt.innerHTML += `
                 <div class="card-bottom">
                     <p class="img-title">${media.title}</p>
@@ -48,9 +48,13 @@ const mediaNode = (media, index, data) => {
 		media.likes += 1;
 		drawUserFeed(data);
 	});
-	elt.querySelector(".feed-img").addEventListener("click", () => {
+	elt.querySelector("a > .feed-img").addEventListener("click", () => {
 		carousel(index);
 	});
+	elt.querySelector("a > .feed-img").addEventListener("keypress", (e) => {
+		e.key === 'Enter' ? carousel(index) : false;
+	});
+
 	return elt;
 };
 
