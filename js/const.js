@@ -30,34 +30,11 @@ const userNode = (user, index, data) => {
 	return elt;
 };
 
-const carousel = (index) => {
-	const medias = document.querySelectorAll(".img-card");
-	index = index > medias.length - 1 ? index = 0
-		: index < 0 ? index = medias.length - 1
-			: index;
-	const sel = medias[index];
-	document.querySelector(".modal-slider-container").classList.add("open-slider");
-	document.querySelector(".slide-img-title").textContent = sel.querySelector(".img-title").textContent;
-	
-	if (sel.querySelector("video")) {
-		document.querySelector(".videosource").setAttribute("src", sel.querySelector(".videosource").getAttribute("src"));
-		document.querySelector(".slider-container > video").style.display = "";
-		document.querySelector(".slider-container > img").style.display = "none";
-	} else {
-		document.querySelector(".lightbox-img").setAttribute("src", sel.querySelector(".feed-img").getAttribute("src"));
-		document.querySelector(".slider-container > video").style.display = "none";
-		document.querySelector(".slider-container > img").style.display = "";
-	}
-
-	document.querySelector(".nextBtn").addEventListener("click", () => {carousel(index + 1);});
-	document.querySelector(".prevBtn").addEventListener("click", () => {carousel(index - 1);});
-};
-
 const mediaNode = (media, index, data) => {
 	let elt = document.createElement("article");
 	elt.classList.add("img-card");
 	let src = media.image ? `${ghPrefix}images/${media.photographerId}/${media.image}` : `${ghPrefix}images/${media.photographerId}/${media.video}`;
-	elt.innerHTML = media.image ? `<img class="feed-img" src="${src}" alt="" tabindex="${index}">`
+	elt.innerHTML = media.image ? `<img class="feed-img" src="${src}" alt="${media.title}">`
 		: `<video class="feed-img"><source class="videosource" src="${src}" type="video/mp4"></video>`;
 	elt.innerHTML += `
                 <div class="card-bottom">
@@ -84,7 +61,7 @@ const tagNode = (label, index, data) => {
 	list.classList.add("link");
 	(sessionStorage.getItem("filters")?.split(","))?.includes(label) ? list.classList.add("active") : false;
 	sp.classList.add("tag");
-	sp.setAttribute("tabindex", index);
+	sp.setAttribute("tabindex", 0);
 	sp.textContent = "#" + label;
 	list.appendChild(sp);
 	elt.appendChild(list);
@@ -99,6 +76,31 @@ const tagNode = (label, index, data) => {
 		window.location.pathname.split("/").pop() === "index.html" ? (drawHomeFeed(data)) : (drawUserFeed(data));
 	});
 	return elt;
+};
+
+const carousel = (index) => {
+	const medias = document.querySelectorAll(".img-card");
+
+	index = index > medias.length - 1 ? index = 0
+		: index < 0 ? index = medias.length - 1
+			: index;
+
+	const sel = medias[index];
+	document.querySelector(".modal-slider-container").classList.add("open-slider");
+	document.querySelector(".slide-img-title").textContent = sel.querySelector(".img-title").textContent;
+	
+	if (sel.querySelector("video")) {
+		document.querySelector(".videosource").setAttribute("src", sel.querySelector(".videosource").getAttribute("src"));
+		document.querySelector(".slider-container > video").style.display = "";
+		document.querySelector(".slider-container > img").style.display = "none";
+	} else {
+		document.querySelector(".lightbox-img").setAttribute("src", sel.querySelector(".feed-img").getAttribute("src"));
+		document.querySelector(".slider-container > video").style.display = "none";
+		document.querySelector(".slider-container > img").style.display = "";
+	}
+
+	document.querySelector(".nextBtn").addEventListener("click", () => {carousel(index + 1);});
+	document.querySelector(".prevBtn").addEventListener("click", () => {carousel(index - 1);});
 };
 
 const displaySettings = () => {
