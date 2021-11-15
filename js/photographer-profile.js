@@ -15,6 +15,7 @@ let profilePageDrawFeed = async () => {
 	document.querySelector(".profile-pic").setAttribute("src", `../images/profiles/${displayUser.portrait}`);
 	document.querySelector(".modal-container > h1").textContent += ` ${displayUser.name}`;
 	document.querySelector(".profile-pic").setAttribute("alt", displayUser.name);
+	document.getElementById("pricebox").innerText = `${displayUser.price}€/Jour`
 
 	drawUserFeed(userMedias);
 };

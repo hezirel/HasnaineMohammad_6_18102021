@@ -276,6 +276,22 @@ main {
         height:200px;
         width:200px;
     }
+    #priceLike {
+        align-items: center;
+        background-image: initial;
+        background-color: var(--clr-secondary);
+        border-radius: 0.3125rem;
+        bottom: 0;
+        display: flex;
+        font-size: 1.2em;
+        font-weight: 500;
+        height: 3rem;
+        justify-content: space-between;
+        padding: 0 2.1875rem;
+        position: fixed;
+        right: 2.5rem;
+        width: 15rem;
+    }
 }
 
 /* FILTER */
@@ -286,24 +302,13 @@ main {
     font-size:18px;
     font-weight:700;
 }
-.dropdown {
-    position:relative;
-}
+
 .dropdownMenu {
     appearance: none;
     background-color: #901C1C;
     color: #FAFAFA;
     padding: 10px;
     border-radius: 10%;
-}
-.filter-option input {
-    display:none;
-}
-.filter, .filter-option{
-    display:flex;
-    align-items: center;
-    gap:1rem;
-    text-transform:capitalize;
 }
 .fa-chevron-up {
     transition:var(--transition);

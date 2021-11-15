@@ -190,6 +190,9 @@ const drawMedia = (data, filters) => {
 	sortingOption > 0 ? titleSorting(arr)
 		: sortingOption < 0 ? likesSorting(arr)
 			: dateSorting(arr);
+	let likes = 0;
+	arr.forEach((e) => {likes += e.likes});
+	document.getElementById("totalLikes").innerText = likes;
 	displayFeed(data, filters);
 };
 
