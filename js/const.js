@@ -6,7 +6,7 @@ const userNode = (user, index, data) => {
 	elt.innerHTML += `
     <a href="./pages/photographer-page.html">
     <section class="user-view" data-id="${user.id}">
-        <img class="profile-pic" src="images/profiles/${user.portrait}" alt="">
+        <img class="profile-pic" src="./images/profiles/${user.portrait}" alt="">
         <h2 class="username">${user.name}</h2>
     </section>
 </a>
