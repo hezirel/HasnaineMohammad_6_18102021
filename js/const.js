@@ -186,7 +186,7 @@ const titleSorting = (arrayToSort) => {
 //Must receive prefiltered media list for user
 const drawMedia = (data, filters) => {
 	let arr = [data][0];
-	let sortingOption = parseInt(document.getElementById("sortingOption").value);
+	let sortingOption = parseInt(document.getElementById("sortingOption").value);//#:fetch dropdown menu value
 	sortingOption > 0 ? titleSorting(arr)
 		: sortingOption < 0 ? likesSorting(arr)
 			: dateSorting(arr);
@@ -212,7 +212,7 @@ const drawUserFeed = (mediasList) => {
 	//If filter selected includes tags non existing in user media feed
 	// remove them from sessionStorage
 	let filterSelected = nonExistentTagRemover(mediasList); 
-	document.querySelector(".dropdown").addEventListener("change", () => {drawMedia(mediasList, filterSelected);});
+	document.getElementById("sortingOption").addEventListener("change", () => {drawMedia(mediasList, filterSelected);});
 	drawMedia(mediasList, filterSelected);
 };
 

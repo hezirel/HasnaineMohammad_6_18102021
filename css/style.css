@@ -184,6 +184,7 @@ main {
 .username {
     color:var(--clr-secondary);
     margin: 0.5rem 0;
+    font-size: large;
     text-transform: capitalize;
 }
 .user-loc {

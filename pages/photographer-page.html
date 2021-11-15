@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
+    <title>Photographer profile</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://kit.fontawesome.com/2f777012c0.js" crossorigin="anonymous"></script>
@@ -44,7 +44,7 @@
     </header>
 
     <!-- MAIN -->
-    <main id="photographer-container">
+    <main id="photographer-container" aria-label="photographer information">
         <!-- User Header -->
         <section class="user-header">
             <div class="user-info">
@@ -57,31 +57,33 @@
             <img class="profile-pic mobile" src="" alt="">
         </section>
         <!-- filter -->
-        <form class="filter">
-            <label>Trier par</label>
-            <select class="dropdown filter-option" id="sortingOption">
-                <option class="filter-option btn" value="-1" selected="selected">Popularity</option>
-                <option value="0">Date</option>
-                <option value="1">Title</option>
+        <div class="custom-drop">
+            <label for="sortingOption">Trier par</label>
+            <select class="dropdownMenu" id="sortingOption" aria-label="Order by">
+                <option class="" value="-1" selected="selected">Popularity</option>
+                <option class="" value="0">Date</option>
+                <option class="" value="1">Title</option>
             </select>
-<!--             <div class="dropdown" tabindex="6">
-                <div class="filter-option btn" tabindex="7">
-                    <input type="checkbox" id="popularity" name="filter" value="popularity" checked>
+
+<!--         <label for="sortingOption">Trier par</label>
+        <div class="dropdown">
+                <div class="filter-option btn">
+                    <input type="checkbox" id="popularity" name="filter" value="-1" checked>
                     <label for="popularity">popularité</label>
                     <i class="fas fa-chevron-up"></i>
                 </div>
                 <div class="dropdown-content">
-                    <div class="filter-option btn" tabindex="8">
-                        <input type="checkbox" id="date" name="filter" value="date">
+                    <div class="filter-option btn">
+                        <input type="checkbox" id="date" name="filter" value="0">
                         <label for="date">date</label>
                     </div>
-                    <div class="filter-option btn" tabindex="9">
-                        <input type="checkbox" id="title" name="filter" value="title">
+                    <div class="filter-option btn">
+                        <input type="checkbox" id="title" name="filter" value="1">
                         <label for="title">titre</label>
                     </div>
                 </div>
-        </div>-->
-        </form>
+            </div>
+        </div> -->
         <!-- End of filter -->
         <!-- Main Container Section -->
         <section class="content-container">
