@@ -36,6 +36,11 @@ p {
 body {
     padding:1.5rem;
 }
+
+.logo {
+    max-width: 60vw;
+    justify-self: left;
+}
 @media screen and (min-width: 769px) {
     body {
         padding:2rem 4rem;
@@ -121,7 +126,7 @@ header .links {
 
 /* HEADER */
 header {
-    margin:3rem 0;
+    margin:1rem;
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -283,6 +288,13 @@ main {
 }
 .dropdown {
     position:relative;
+}
+.dropdownMenu {
+    appearance: none;
+    background-color: #901C1C;
+    color: #FAFAFA;
+    padding: 10px;
+    border-radius: 10%;
 }
 .filter-option input {
     display:none;
