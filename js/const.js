@@ -109,6 +109,13 @@ const carousel = (index) => {
 
 	document.querySelector(".nextBtn").addEventListener("click", () => {carousel(index + 1);});
 	document.querySelector(".prevBtn").addEventListener("click", () => {carousel(index - 1);});
+	window.addEventListener("keydown", (e) => {
+		e.key == "ArrowRight" ? carousel(index + 1)
+			: e.key == "ArrowLeft" ? carousel(index - 1)
+				: e.key === "Escape" ? document.querySelector(".modal-slider-container").classList.remove("open-slider")
+					: false;
+	}, true);
+	
 };
 
 const displaySettings = () => {
