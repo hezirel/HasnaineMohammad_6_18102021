@@ -72,7 +72,7 @@ body {
     -ms-transition:var(--transition);
     -o-transition:var(--transition);
 }
-.btn:hover, .btn:focus, .btn:active,{
+.btn:hover, .btn:focus, .btn:active {
     background-color:var(--clr-secondary);
     color:black;
 }
@@ -246,9 +246,8 @@ main {
 }
 @media screen and (min-width: 769px) {
     .contact {
-        position:initial;
+        position:sticky;
         height:fit-content;
-        font-size:13px;
     }
     .user-header .username {
         line-height: 56px;
