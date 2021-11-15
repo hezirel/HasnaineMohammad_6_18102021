@@ -41,14 +41,24 @@ body {
     max-width: 60vw;
     justify-self: left;
 }
+
+.custom-drop {
+    display: none;
+}
 @media screen and (min-width: 769px) {
     body {
         padding:2rem 4rem;
     }
+.custom-drop {
+    display: block;
+}
 }
 /* END OF GLOBAL STYLES */
 
 /* GLOBAL CLASSES */
+#priceLike {
+    display: none;
+}
 .profile-pic {
     border-radius:50%;
     -webkit-border-radius:50%;
