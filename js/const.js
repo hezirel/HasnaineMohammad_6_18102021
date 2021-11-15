@@ -6,7 +6,7 @@ const userNode = (user, index, data) => {
 	elt.classList.add("user");
 	elt.innerHTML += `
     <a href="./pages/photographer-page.html">
-    <section class="user-view" data-id="${user.id}">
+    <section class="user-view" data-id="${user.id}" tabindex=0>
         <img class="profile-pic" src="${ghPrefix}images/profiles/${user.portrait}" alt="${user.name}">
         <h1 class="username">${user.name}</h1>
     </section>
@@ -52,7 +52,7 @@ const mediaNode = (media, index, data) => {
 		carousel(index);
 	});
 	elt.querySelector("a > .feed-img").addEventListener("keypress", (e) => {
-		e.key === 'Enter' ? carousel(index) : false;
+		e.key === "Enter" ? carousel(index) : false;
 	});
 
 	return elt;
@@ -69,15 +69,19 @@ const tagNode = (label, index, data) => {
 	sp.textContent = "#" + label;
 	list.appendChild(sp);
 	elt.appendChild(list);
-	elt.addEventListener("click", () => {
-		let arr = label;
-		if (sessionStorage.getItem("filters")) {
-			let filterSelected = sessionStorage.getItem("filters");
-			arr = filterSelected.split(",");
-			arr.includes(label) ? arr.splice(arr.indexOf(label), 1) : arr.push(label);
-		}
-		sessionStorage.setItem("filters", arr);
-		window.location.pathname.split("/").pop() === "index.html" ? (drawHomeFeed(data)) : (drawUserFeed(data));
+	"click keypress".split(" ").forEach((e) => {
+		elt.addEventListener((e), (e) => {
+			let arr = label;
+			if (e.type === "click" || e.key === "Enter") {
+				if (sessionStorage.getItem("filters")) {
+					let filterSelected = sessionStorage.getItem("filters");
+					arr = filterSelected.split(",");
+					arr.includes(label) ? arr.splice(arr.indexOf(label), 1) : arr.push(label);
+				}
+				sessionStorage.setItem("filters", arr);
+				window.location.pathname.split("/").pop() === "index.html" ? (drawHomeFeed(data)) : (drawUserFeed(data));
+			}
+		});
 	});
 	return elt;
 };
