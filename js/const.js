@@ -1,5 +1,4 @@
 let homeTagsList = [];
-let ghPrefix = "../";
 //User card node constructor
 const userNode = (user, index, data) => {
 	var elt = document.createElement("article");
@@ -7,7 +6,7 @@ const userNode = (user, index, data) => {
 	elt.innerHTML += `
     <a href="./pages/photographer-page.html">
     <section class="user-view" data-id="${user.id}">
-        <img class="profile-pic" src="${ghPrefix}images/profiles/${user.portrait}" alt="">
+        <img class="profile-pic" src="images/profiles/${user.portrait}" alt="">
         <h2 class="username">${user.name}</h2>
     </section>
 </a>
