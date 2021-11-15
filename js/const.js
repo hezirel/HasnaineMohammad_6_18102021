@@ -32,7 +32,7 @@ const userNode = (user, index, data) => {
 const mediaNode = (media, index, data) => {
 	let elt = document.createElement("article");
 	elt.classList.add("img-card");
-	let src = media.image ? `./images/${media.photographerId}/${media.image}` : `./images/${media.photographerId}/${media.video}`;
+	let src = media.image ? `../images/${media.photographerId}/${media.image}` : `../images/${media.photographerId}/${media.video}`;
 	elt.innerHTML = media.image ? `<a tabindex=0><img class="feed-img" src="${src}" alt="${media.title}"></a>`
 		: `<a tabindex=0><video class="feed-img"><source class="videosource" src="${src}" type="video/mp4"></video></a>`;
 	elt.innerHTML += `
