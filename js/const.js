@@ -6,9 +6,9 @@ const userNode = (user, index, data) => {
 	elt.classList.add("user");
 	elt.innerHTML += `
     <a href="./pages/photographer-page.html">
-    <section class="user-view" data-id="${user.id}" tabindex=0>
-        <img class="profile-pic" src="${ghPrefix}images/profiles/${user.portrait}" alt="${user.name}">
-        <h1 class="username">${user.name}</h1>
+    <section class="user-view" data-id="${user.id}">
+        <img class="profile-pic" src="${ghPrefix}images/profiles/${user.portrait}" alt="">
+        <h2 class="username">${user.name}</h2>
     </section>
 </a>
 <section class="user-info">
@@ -34,24 +34,24 @@ const mediaNode = (media, index, data) => {
 	let elt = document.createElement("article");
 	elt.classList.add("img-card");
 	let src = media.image ? `${ghPrefix}images/${media.photographerId}/${media.image}` : `${ghPrefix}images/${media.photographerId}/${media.video}`;
-	elt.innerHTML = media.image ? `<a><img class="feed-img" tabindex=0 src="${src}" alt="${media.title}"></a>`
-		: `<a><video class="feed-img" tabindex=0><source class="videosource" src="${src}" type="video/mp4"></video></a>`;
+	elt.innerHTML = media.image ? `<a tabindex=0><img class="feed-img" src="${src}" alt="${media.title}"></a>`
+		: `<a tabindex=0><video class="feed-img"><source class="videosource" src="${src}" type="video/mp4"></video></a>`;
 	elt.innerHTML += `
                 <div class="card-bottom">
                     <p class="img-title">${media.title}</p>
                     <div class="like">
                         <p class="like-count">${media.likes}</p>
-                        <i class="fas fa-heart"></i>
+                        <i class="fas fa-heart" aria-label="likes"></i>
                     </div>
                 </div>`;
 	elt.querySelector(".like").addEventListener("click", () => {
 		media.likes += 1;
 		drawUserFeed(data);
 	});
-	elt.querySelector("a > .feed-img").addEventListener("click", () => {
+	elt.querySelector("a").addEventListener("click", () => {
 		carousel(index);
 	});
-	elt.querySelector("a > .feed-img").addEventListener("keypress", (e) => {
+	elt.querySelector("a").addEventListener("keypress", (e) => {
 		e.key === "Enter" ? carousel(index) : false;
 	});
 
@@ -99,12 +99,12 @@ const carousel = (index) => {
 	
 	if (sel.querySelector("video")) {
 		document.querySelector(".videosource").setAttribute("src", sel.querySelector(".videosource").getAttribute("src"));
-		document.querySelector(".slider-container > video").style.display = "";
+		document.querySelector(".slider-container > video").style.display = "block";
 		document.querySelector(".slider-container > img").style.display = "none";
 	} else {
 		document.querySelector(".lightbox-img").setAttribute("src", sel.querySelector(".feed-img").getAttribute("src"));
 		document.querySelector(".slider-container > video").style.display = "none";
-		document.querySelector(".slider-container > img").style.display = "";
+		document.querySelector(".slider-container > img").style.display = "block";
 	}
 
 	document.querySelector(".nextBtn").addEventListener("click", () => {carousel(index + 1);});

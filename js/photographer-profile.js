@@ -14,6 +14,8 @@ let profilePageDrawFeed = async () => {
 	document.querySelector(".user-tagline").textContent = displayUser.tagline;
 	document.querySelector(".profile-pic").setAttribute("src", `../images/profiles/${displayUser.portrait}`);
 	document.querySelector(".modal-container > h1").textContent += ` ${displayUser.name}`;
+	document.querySelector(".profile-pic").setAttribute("alt", displayUser.name);
+
 	drawUserFeed(userMedias);
 };
 profilePageDrawFeed();
