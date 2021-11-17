@@ -5,7 +5,7 @@ const userNode = (user, index, data) => {
 	var elt = document.createElement("article");
 	elt.classList.add("user");
 	elt.innerHTML += `
-    <a href="./pages/photographer-page.html">
+    <a href="./pages/profile.html">
     <section class="user-view" data-id="${user.id}">
         <img class="profile-pic" src="./images/profiles/${user.portrait}" alt="">
         <h2 class="username">${user.name}</h2>
@@ -79,7 +79,7 @@ const tagNode = (label, index, data) => {
 					arr.includes(label) ? arr.splice(arr.indexOf(label), 1) : arr.push(label);
 				}
 				sessionStorage.setItem("filters", arr);
-				window.location.pathname.split("/").pop() === "index.html" ? (drawHomeFeed(data)) : (drawUserFeed(data));
+				window.location.pathname.split("/").pop() === "profile.html" ? (drawUserFeed(data)) : (drawHomeFeed(data));
 			}
 		});
 	});
@@ -119,16 +119,16 @@ const carousel = (index) => {
 };
 
 const displaySettings = () => {
-	return (window.location.pathname.split("/").pop() === "index.html" ?
+	return (window.location.pathname.split("/").pop() === "profile.html" ?
 		{
-			node: userNode,
-			card: ".user",
-			homeContainer: document.querySelector(".home-container"),
-		} : {
 			node: mediaNode,
 			card: ".img-card",
 			homeContainer: document.querySelector(".content-container"),
-		});
+		} : {
+			node: userNode,
+			card: ".user",
+			homeContainer: document.querySelector(".home-container"),
+		}) ;
 };
 
 //Receive either photographers list or filtered medias list
